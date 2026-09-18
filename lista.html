@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body class="bg-gray-100 text-gray-800 p-6">
+    <!--CONTENITORE PRINCIPALE-->
+    <div class="max-w-7xl mx-auto">
+        <!--INTESTAZIONE-->
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Le mie attività</h1>
+            <button class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>    
+                Nuova attività</button>
+        </header>
+        <!--RICERCA E FILTRI-->
+        <div class="max-w-7xl mx-auto flex items-center">
+            <input type="text" placeholder="Cerca attività..." class="px-6 mr-2 py-2 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-2xl">
+            <button class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                </svg>   
+                Filtri
+            </button>
+        </div>
+        <!--DIV GRID FILTRI-->
+        <div class="max-w-7xl mx-auto mt-5 items-center grid grid-cols-4 gap-4">
+            <!--ETICHETTE-->
+            <span class="mt-5 flex items-center gap-2 font-bold">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+                </svg>
+                Categoria
+            </span>
+            <span class="mt-5 flex items-center gap-2 font-bold">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
+                </svg>
+                Scadenza
+            </span>
+            <span class="mt-5 flex items-center gap-2 font-bold">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>                  
+                Utente assegnato
+            </span>
+            <button class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 justify-self-end">         
+                Pulisci filtri
+            </button>
+            <!--FILTRI VERI E PROPRI-->
+            <div class="col-span-4 border-y border-sky-600 py-4 grid grid-cols-4 gap-4">
+                <select class="py-2 text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl">
+                    <option disabled selected hidden>Seleziona etichetta...</option>
+                    <option>Design</option>
+                    <option>Sviluppo</option>
+                    <option>Release</option>
+                    <option>Bug</option>
+                </select>
+                <select class="py-2 text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl">
+                    <option disabled selected hidden>Seleziona scadenza...</option>
+                    <option>Scade oggi</option>
+                    <option>Scade in settimana</option>
+                    <option>Scaduto</option>
+                </select>
+                <select class="py-2 text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl">
+                    <option disabled selected hidden>Seleziona utente...</option>
+                    <option>Giordana Martucci</option>
+                    <option>Lucio Morelli</option>
+                    <option>Matteo di Donato</option>
+                    <option>Federico Micello</option>
+                    <option>Delin Squarcella</option>
+                </select>
+            </div>
+        </div>
+        <!--GRID CARDS (3 COLONNE)-->
+        <div class="grid grid-cols-3 mt-5 gap-6">
+            <!--CARDS EFFETTIVE-->
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <h2 class="font-bold mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                    </svg>
+                    Da fare
+                </h2>
+                <div class="flex flex-col gap-4">
+                    <div class="bg-white p-4 rounded-lg shadow">CARD 1</div>
+                    <div class="bg-white p-4 rounded-lg shadow">CARD 1</div>
+                    <div class="bg-white p-4 rounded-lg shadow">CARD 1</div>
+                </div>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <h2 class="font-bold mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>                      
+                    In corso
+                </h2>
+                <div class="flex flex-col gap-4">
+                    <div class="bg-white p-4 rounded-lg shadow">CARD 1</div>
+                    <div class="bg-white p-4 rounded-lg shadow">CARD 1</div>
+                    <div class="bg-white p-4 rounded-lg shadow">CARD 1</div>
+                </div>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <h2 class="font-bold mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>                      
+                    Fatto
+                </h2>
+                <div class="flex flex-col gap-4">
+                    <div class="bg-white p-4 rounded-lg shadow">CARD 1</div>
+                    <div class="bg-white p-4 rounded-lg shadow">CARD 1</div>
+                    <div class="bg-white p-4 rounded-lg shadow">CARD 1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
