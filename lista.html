@@ -20,7 +20,7 @@
         </header>
         <!--RICERCA E FILTRI-->
         <div class="max-w-7xl mx-auto flex items-center">
-            <input type="text" placeholder="Cerca attività..." class="px-6 mr-2 py-2 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-2xl">
+            <input type="text" placeholder="Cerca attività..." class="px-6 mr-2 py-2 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-2xl">
             <button class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
@@ -194,6 +194,79 @@
                 </h2>
                 <!--COLONNA VUOTA!-->
                 <div class="flex flex-col gap-4"></div>
+            </div>
+        </div>
+    </div>
+    <!--APPENA FINITI I TEST BISOGNA AGGIUNGERE hidden DROPO fixed e gestire la logica su js-->
+    <div class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl relative p-8">
+            <!--BOTTONE DI CHIUSURA-->
+            <button class="bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>                   
+            </button>
+
+            <!--INTESTAZIONE-->
+            <div class="mb-8 pr-10">
+                <!--CATEGORIA-->
+                <span class="mt-6 inline-block px-2 py-1 font-bold text-sky-700 bg-sky-100 rounded">Release</span>
+                <!--PICCOLA DESCRIZIONE (DA CARD)-->
+                <h2 class="text-3xl font-bold">Creare il layout bacheca con tailwind</h2>
+                <!--DA FARE/IN CORSO/FATTO-->
+                <span class="mt-4 inline-block px-2 py-1 font-bold text-green-700 bg-green-100 rounded">Da fare</span>
+            </div>
+            <!--GRIGLIA A DUE COLONNE PER DIVIDERE LE VARIE INFORMAZIONI-->
+            <!--DIVISO IN REALTà IN 3 COLONNE PERCHé LA "PRIMA COLONNA" DEVE ESSERE PIU GRANDE DELLA SECONDA (TERZA)-->
+            <div class="grid grid-cols-3 gap-8">
+                <div class="col-span-2 flex flex-col">
+                    <!--DIV DESCRIZIONE-->
+                    <div>
+                        <h3 class="mb-2 text-sm font-bold text-gray-700 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                            </svg>                          
+                            Descrizione</h3>
+                        <textarea class="w-full p-3 h-32 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600" placeholder="Aggiungi una descrizione..."></textarea>
+                        <div class="mt-2 space-x-2">
+                            <button class="bg-sky-500 hover:bg-sky-600 rounded-xl px-7 py-1 text-gray-700">Salva</button>
+                            <button class="bg-gray-100 hover:bg-gray-200 rounded-xl px-6 py-1 text-gray-700 border border-sky-600">Annulla</button>
+                        </div>
+                    </div>
+                    <!--DIV CHECKLIST-->
+                    <div>
+                        <h3 class="mb-2 text-sm font-bold text-gray-700 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                            </svg>                      
+                            Checklist</h3>
+                        <div class="space-y-2 mb-3">
+                            <label class="flex items-center gap-3 p-2">
+                                <input type="checkbox" checked class="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500">
+                                <span class="text-sm text-gray-700"> Scrivere l'HTML di base</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2">
+                                <input type="checkbox"  class="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500">
+                                <span class="text-sm text-gray-700"> Inserire la nuova palette di colori</span>
+                            </label>
+                            <button class="bg-gray-100 hover:bg-gray-200 rounded-xl px-2 py-1 text-gray-700 border border-sky-600 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                                </button>      
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-span-1 flex flex-col">
+                    <!--DIV GESTIONE-->
+                    <div>
+                        <h3 class="mb-2 text-sm font-bold text-gray-700 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+                              </svg>                   
+                            Gestione</h3>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
