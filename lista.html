@@ -28,8 +28,8 @@
                 Filtri
             </button>
         </div>
-        <!--DIV GRID FILTRI-->
-        <div class="max-w-7xl mx-auto mt-5 items-center grid grid-cols-4 gap-4">
+        <!--DIV GRID FILTRI: ORA SONO HIDDEN PERCHE DEVONO ESSERE VISTI SOLO QUANDO CLICCO PULSANTE FILTRI (DA GESTIRE IN JS)-->
+        <div class="hidden max-w-7xl mx-auto mt-5 items-center grid grid-cols-4 gap-4">
             <!--ETICHETTE-->
             <span class="mt-5 flex items-center gap-2 font-bold">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -104,7 +104,6 @@
                                 </svg>
                                 <span>24 Set</span>
                             </div>
-
                             <div class="w-9 h-9 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center">
                                 GM
                             </div>
@@ -198,7 +197,7 @@
         </div>
     </div>
     <!--APPENA FINITI I TEST BISOGNA AGGIUNGERE hidden DROPO fixed e gestire la logica su js-->
-    <div class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+    <div class="fixed hidden inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl relative w-full max-w-5xl flex flex-col max-h-[90vh] overflow-hidden">
             <!--BOTTONE DI CHIUSURA-->
             <button class="bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10">
@@ -295,7 +294,7 @@
                 </div>
             </div>
             <div class="px-8 py-5 border-t w-full border-gray-100 flex justify-between items-center bg-gray-50 flex-shrink-0">
-                <div class="flex flex-col item-starts gap-1">
+                <div class="flex flex-col items-start gap-1">
                     <span class="text-xs text-gray-400">Creata il: 20/09/2026 alle 10:42</span>
                     <button class="text-sm mt-2 font-medium text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-md flex items-center gap-1.5">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
