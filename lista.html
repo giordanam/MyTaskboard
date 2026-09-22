@@ -12,7 +12,7 @@
         <!--INTESTAZIONE-->
         <header class="flex justify-between items-center mb-8">
             <h1 class="text-3xl font-bold">Le mie attività</h1>
-            <button class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2">
+            <button id="btn-new-act" class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>    
@@ -21,7 +21,7 @@
         <!--RICERCA E FILTRI-->
         <div class="max-w-7xl mx-auto flex items-center">
             <input type="text" placeholder="Cerca attività..." class="px-6 mr-2 py-2 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-2xl">
-            <button class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2">
+            <button id="btn-filters" class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                 </svg>   
@@ -50,7 +50,7 @@
                 </svg>                  
                 Utente assegnato
             </span>
-            <button class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 justify-self-end">         
+            <button id="clean-filters" class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 justify-self-end">
                 Pulisci filtri
             </button>
             <!--FILTRI VERI E PROPRI-->
@@ -79,7 +79,7 @@
             </div>
         </div>
         <!--GRID CARDS (3 COLONNE)-->
-        <div class="grid grid-cols-3 mt-5 gap-6">
+        <div id="grid-cards" class="grid grid-cols-3 mt-5 gap-6">
             <!--CARDS EFFETTIVE-->
             <div class="bg-gray-100 p-4 rounded-lg">
                 <h2 class="font-bold mb-4 flex items-center gap-2">
@@ -197,7 +197,7 @@
         </div>
     </div>
     <!--APPENA FINITI I TEST BISOGNA AGGIUNGERE hidden DROPO fixed e gestire la logica su js-->
-    <div class="fixed hidden inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+    <div id="zoom-cards" class="fixed hidden inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl relative w-full max-w-5xl flex flex-col max-h-[90vh] overflow-hidden">
             <!--BOTTONE DI CHIUSURA-->
             <button class="bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10">
@@ -313,7 +313,8 @@
             </div>
         </div>
     </div>
-    <div class="fixed hidden inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+    <!--FORM NEW ACTIVITY-->
+    <div id="new-activity" class="fixed hidden inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl relative w-full max-w-5xl flex flex-col max-h-[90vh] overflow-hidden">
             <!--BOTTONE DI CHIUSURA-->
             <button class="bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10">
@@ -403,7 +404,7 @@
         <h2 class="text-lg font-bold text-red-700">Impossibile salvare la tua attività, riprova</h2>
     </div>
     <!--TIPO DI ERRORE: ABBANDONO ACCIDENTALE-->
-    <div class="fixed hidden inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
+    <div id="mod-warning" class="fixed hidden inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl relative w-full max-w-sm flex flex-col gap-6 p-6 max-h-[90vh] overflow-hidden">
             <h2 class="text-lg font-bold text-gray-800">Vuoi davvero uscire?</h2>
             <p class="text-sm text-gray-500">Le modifiche che hai fatto non verranno salvate</p>
