@@ -211,8 +211,9 @@
                 <div class="mb-8 pr-10">
                     <!--CATEGORIA-->
                     <span class="mt-6 inline-block px-2 py-1 font-bold text-sky-700 bg-sky-100 rounded">Release</span>
-                    <!--PICCOLA DESCRIZIONE (DA CARD)-->
-                    <h2 class="text-3xl font-bold">Creare il layout bacheca con tailwind</h2>
+                    <!--PICCOLA DESCRIZIONE (DA CARD) = TITOLO ATTIVITA (OBBLIGATORIO)-->
+                    <input type="text" value="Creare il layout bacheca con tailwind" class="w-full text-3xl font-bold focus:outline-none">
+                    <p class="hidden mt-1 text-red-800 text-xs font-bold">Titolo obbligatorio</p>
                     <!--DA FARE/IN CORSO/FATTO-->
                     <span class="mt-4 inline-block px-2 py-1 font-bold text-green-700 bg-green-100 rounded">Da fare</span>
                 </div>
@@ -285,9 +286,10 @@
                                 </svg>
                                 Timeline
                             </h3>
-                           <div>
+                           <div> <!--ERRORE CHE PARTE QUANDO LA SCADENZA è NEL PASSATO-->
                                <label for="card-expire" class="mt-3 block text-xs font-bold text-gray-500">Scadenza</label>
                                <input type="date" id="card-expire" value="2026-09-24" class="w-full bg-white border border-gray-200 text-sm rounded-md px-3 py-2 text-gray-700 focus:ring-2 focus:ring-sky-500 outline-none">
+                               <p class=" hidden mt-1 text-red-800 text-xs font-bold">Errore: scandenza nel passato</p>
                            </div>
                         </div>
                     </div>
@@ -325,6 +327,7 @@
                 <div class="mb-8 pr-10">
                     <!--DESCRIZIONE-->
                     <input type="text" placeholder="Inserisci il titolo della nuova attività" class="w-full text-3xl font-bold focus:outline-none">
+                    <p class="hidden mt-1 text-red-800 text-xs font-bold">Titolo obbligatorio</p>
                 </div>
                 <!--GRIGLIA A DUE COLONNE PER DIVIDERE LE VARIE INFORMAZIONI-->
                 <!--DIVISO IN REALTà IN 3 COLONNE PERCHé LA "PRIMA COLONNA" DEVE ESSERE PIU GRANDE DELLA SECONDA (TERZA)-->
@@ -377,6 +380,7 @@
                             <div>
                                 <label for="card-expire" class="mt-3 block text-xs font-bold text-gray-500">Scadenza</label>
                                 <input type="date" id="new-card-expire" value="2026-09-29" class="w-full bg-white border border-gray-200 text-sm rounded-md px-3 py-2 text-gray-700 focus:ring-2 focus:ring-sky-500 outline-none">
+                                <p class=" hidden mt-1 text-red-800 text-xs font-bold">Errore: scandenza nel passato</p>
                             </div>
                         </div>
                     </div>
@@ -388,6 +392,24 @@
                     <button class="bg-sky-500 hover:bg-sky-600 rounded-xl px-5 py-1 text-gray-700">Salva</button>
                     <button class="bg-gray-100 hover:bg-gray-200 rounded-xl px-4 py-1 text-gray-700 border border-sky-600">Annulla</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!--BANNER DI ERRORE: SALVATAGGIO FALLITO-->
+    <div class="fixed hidden bottom-5 right-5 bg-red-100 border border-red-500 rounded-md flex items-center gap-3 shadow-lg p-4 z-[100]">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-700 font-bold">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+        </svg>
+        <h2 class="text-lg font-bold text-red-700">Impossibile salvare la tua attività, riprova</h2>
+    </div>
+    <!--TIPO DI ERRORE: ABBANDONO ACCIDENTALE-->
+    <div class="fixed hidden inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl relative w-full max-w-sm flex flex-col gap-6 p-6 max-h-[90vh] overflow-hidden">
+            <h2 class="text-lg font-bold text-gray-800">Vuoi davvero uscire?</h2>
+            <p class="text-sm text-gray-500">Le modifiche che hai fatto non verranno salvate</p>
+            <div class="flex justify-end gap-3 w-full">
+                <button class="bg-white hover:bg-gray-100 rounded-xl font-medium border border-gray-700 px-5 py-1 text-gray-700">Annulla</button>
+                <button class="bg-red-500 hover:bg-red-600 rounded-xl px-4 py-1 text-white">Esci</button>
             </div>
         </div>
     </div>
