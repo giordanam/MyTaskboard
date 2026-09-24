@@ -89,16 +89,18 @@ const stateNewActivity = document.getElementById("state-new")
 const userNewActivity = document.getElementById("user-new")
 const expireNewActivity = document.getElementById("expire-new")
 const colTodo = document.getElementById("col-todo")
-const colInprogress = document.getElementById("col-inprogress")
-const colComplete = document.getElementById("col-complete")
+const colProgress = document.getElementById("col-inprogress")
+const colComplete = document.getElementById("col-done")
 
 //logica di salvataggio
 btnSaveNew.addEventListener("click", function (event) {
     //pulizia errori
     const errTitle = document.getElementById("title-error")
-    const errDate = document.getElementById("date-error")
+    const errDatePast = document.getElementById("date-error-past")
+    const errDateMiss = document.getElementById("date-error-miss")
     errTitle.classList.add("hidden")
-    errDate.classList.add("hidden")
+    errDatePast.classList.add("hidden")
+    errDateMiss.classList.add("hidden")
 
     //lettura dei valori OBBLIGATORI
     const title = titleNewActivity.value.trim()
@@ -109,8 +111,8 @@ btnSaveNew.addEventListener("click", function (event) {
     const expire_date = new Date(expire)
 
     let isValid = true
-    //check title
 
+    //check title
     if(title === "") {
         errTitle.classList.remove("hidden")
         isValid = false
@@ -118,21 +120,25 @@ btnSaveNew.addEventListener("click", function (event) {
 
     //check date
     if(expire !== "" && expire_date < today) {
-        errDate.classList.remove("hidden")
+        errDatePast.classList.remove("hidden")
+        isValid = false
+    }
+
+    if(expire === "") {
+        errDateMiss.classList.remove("hidden")
         isValid = false
     }
 
     if(isValid) {
         //const description = descriptionNewActivity.value.trim()
         const state = stateNewActivity.value
-        console.log(state)
 
         let colState
         //check col to put card
         if(state === "to-do") {
             colState = colTodo
-        }else if(state === "inprogress") {
-            colState = colInprogress
+        }else if(state === "in-progress") {
+            colState = colProgress
         }else if(state === "done") {
             colState = colComplete
         }
