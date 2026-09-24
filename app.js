@@ -174,6 +174,20 @@ btnSaveNew.addEventListener("click", function (event) {
 
         colState.insertAdjacentHTML("beforeend", newCardHTML)
 
+        //cleaning before closing
+        //input text
+        titleNewActivity.value = ""
+        descriptionNewActivity.value = ""
+
+        //select
+        labelNewActivity.selectedIndex = 0
+        stateNewActivity.selectedIndex = 0
+        userNewActivity.selectedIndex = 0
+
+        //date
+        expireNewActivity.value = ""
+
+
         dialogNew.close()
     }
 })
