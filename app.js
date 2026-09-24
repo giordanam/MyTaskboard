@@ -23,7 +23,30 @@ const btnCancelErr = document.getElementById("btn-cancel-err")
 const btnExitErr = document.getElementById("btn-exit-err")
 
 //HOME --> EVENT LISTENER BUTTONS
+const gridFilters = document.getElementById("filters")
+const searchInput = document.getElementById("search-input")
 
+btnFilters.addEventListener("click", function() {
+    gridFilters.classList.toggle("hidden");
+})
+
+searchInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        console.log("Hai premuto invio! Il testo da cercare è: " + searchInput.value);
+        searchInput.value = "";
+        searchInput.blur()
+    }
+})
+
+const labelFilter = document.getElementById("label-filter")
+const dateFilter = document.getElementById("date-filter")
+const userFilter = document.getElementById("user-filter")
+
+btnCleanFilters.addEventListener("click", function() {
+    labelFilter.value = "";
+    dateFilter.value = "";
+    userFilter.value = "";
+})
 
 //DIALOG NEW ACTIVITY
 const dialogNew = document.getElementById("dialog-new")
