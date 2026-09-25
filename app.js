@@ -64,7 +64,19 @@ function closeDialogError() {
 function closeNewActivity() {
     dialogNew.close()
     dialogError.close()
-    //da aggiungere svuotare input
+
+    //cleaning before closing
+    //input text
+    titleNewActivity.value = ""
+    descriptionNewActivity.value = ""
+
+    //select
+    labelNewActivity.selectedIndex = 0
+    stateNewActivity.selectedIndex = 0
+    userNewActivity.selectedIndex = 0
+
+    //date
+    expireNewActivity.value = ""
 }
 
 btnNewActivity.addEventListener("click", function (event) {
@@ -79,7 +91,6 @@ btnNewActivity.addEventListener("click", function (event) {
 btnCloseNew.addEventListener("click", openDialogError)
 btnCancelNew.addEventListener("click", openDialogError)
 btnCancelErr.addEventListener("click", closeDialogError)
-btnExitErr.addEventListener("click", closeNewActivity)
 
 //INPUT NEW ACTIVITY MODAL
 const titleNewActivity = document.getElementById("title-new")
@@ -145,6 +156,7 @@ btnSaveNew.addEventListener("click", function (event) {
 
         const textLabel = labelNewActivity.options[labelNewActivity.selectedIndex].text
         const textUser = userNewActivity.options[userNewActivity.selectedIndex].text
+        const textState = stateNewActivity.options[stateNewActivity.selectedIndex].text
 
         const splitUsr = textUser.split(" ")
 
@@ -156,8 +168,11 @@ btnSaveNew.addEventListener("click", function (event) {
             usr = splitUsr[0][0]
         }
 
+        const description = descriptionNewActivity.value.trim();
+        const safeDescription = description.replace(/"/g, '&quot;')
+
         const newCardHTML = `
-            <div class="bg-white p-4 rounded-lg shadow">
+            <div class="bg-white p-4 rounded-lg shadow task-card cursor-pointer" data-label="${textLabel}" data-title="${title}" data-expire="${expire}" data-user="${userNewActivity.value}" data-description="${safeDescription}" data-state="${state}" data-edit="${textState}">
                 <div class="mb-2">
                     <span class="inline-block px-2 py-1 font-bold text-sky-700 bg-sky-100 rounded">${textLabel}</span>
                 </div>
@@ -187,7 +202,63 @@ btnSaveNew.addEventListener("click", function (event) {
         //date
         expireNewActivity.value = ""
 
-
         dialogNew.close()
     }
 })
+
+function closeEditActivity() {
+    dialogEdit.close()
+    dialogError.close()
+}
+
+//logica chiusura modale di errore
+btnExitErr.addEventListener("click", function () {
+    if (dialogNew.open) {
+        closeNewActivity()
+    }
+
+    if(dialogEdit.open) {
+        closeEditActivity()
+    }
+})
+
+
+//INPUT ZOOM CARD MODAL
+const dialogEdit = document.getElementById("dialog-edit")
+const gridCards = document.getElementById("grid-cards")
+
+gridCards.addEventListener("click", function (event) {
+    const clickedCard = event.target.closest(".task-card")
+
+    if (clickedCard) {
+
+        //recupero informazioni dalla mini-card
+        const cardLabel = clickedCard.dataset.label
+        const cardTitle = clickedCard.dataset.title
+        const cardExpire = clickedCard.dataset.expire
+        const cardUser = clickedCard.dataset.user
+        const cardDescription = clickedCard.dataset.description
+        const cardState = clickedCard.dataset.state
+        const cardStateEdit = clickedCard.dataset.edit
+
+        //riempimento
+        document.getElementById("label-edit").textContent = cardLabel
+        document.getElementById("title-edit").value = cardTitle
+        document.getElementById("card-user").value = cardUser
+        document.getElementById("card-expire").value = cardExpire
+        document.getElementById("description-edit").value = cardDescription
+        document.getElementById("card-status").value = cardState
+        document.getElementById("state-edit").textContent = cardStateEdit
+
+        dialogEdit.showModal()
+    }
+
+
+})
+//buttons event listener
+btnCloseEdit.addEventListener("click", openDialogError)
+//btnAddCheck
+btnCancelEdit.addEventListener("click", openDialogError)
+
+//logica recupero campi da mini card
+
