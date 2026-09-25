@@ -344,8 +344,15 @@ btnSaveEdit.addEventListener("click", function () {
     cardEdit.querySelector(".js-card-expire").textContent = newExpire
     cardEdit.querySelector(".js-card-user").textContent = newUserFirst
 
-    cardEdit = null
     dialogEdit.close()
+    cardEdit = null
 })
 
 //logica elimina attività (button delete)
+btnDelActivity.addEventListener("click", function (event) {
+    cardEdit.remove()
+
+    dialogEdit.close()
+
+    cardEdit = null
+})
