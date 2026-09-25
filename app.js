@@ -191,6 +191,14 @@ btnSaveNew.addEventListener("click", function (event) {
 
         colState.insertAdjacentHTML("beforeend", newCardHTML)
 
+        //validazione del form tramite console.log
+        console.log("Nuova attività inserita! Ecco i dati:\nTitolo nuova attività: " + titleNewActivity.value +
+            "\nDescrizione nuova attività: " + descriptionNewActivity.value +
+            "\nDa fare/In corso/Completato: " + stateNewActivity.options[stateNewActivity.selectedIndex].text +
+            "\nCategoria: " + labelNewActivity.options[labelNewActivity.selectedIndex].text +
+            "\nData di scadenza: " + expireNewActivity.value +
+            "\nAssegnato a: " + userNewActivity.options[userNewActivity.selectedIndex].text)
+
         //cleaning before closing
         //input text
         titleNewActivity.value = ""
@@ -262,7 +270,6 @@ gridCards.addEventListener("click", function (event) {
 })
 //buttons event listener
 btnCloseEdit.addEventListener("click", openDialogError)
-//btnAddCheck
 btnCancelEdit.addEventListener("click", openDialogError)
 
 //logica checkbox
