@@ -26,6 +26,8 @@ const btnExitErr = document.getElementById("btn-exit-err")
 const gridFilters = document.getElementById("filters")
 const searchInput = document.getElementById("search-input")
 
+let cardEdit = null
+
 btnFilters.addEventListener("click", function() {
     gridFilters.classList.toggle("hidden");
 })
@@ -176,15 +178,15 @@ btnSaveNew.addEventListener("click", function (event) {
                 <div class="mb-2">
                     <span class="inline-block px-2 py-1 font-bold text-sky-700 bg-sky-100 rounded">${textLabel}</span>
                 </div>
-                <h3 class="text-sm font-bold text-gray-800 mb-4">${title}</h3>
+                <h3 class="text-sm font-bold text-gray-800 mb-4 js-card-title">${title}</h3>
                 <div class="flex justify-between items-center mt-auto">
                     <div class="flex items-center gap-1">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                         </svg>
-                        <span>${expire}</span>
+                        <span class="js-card-expire">${expire}</span>
                     </div>
-                    <div class="w-9 h-9 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center">${usr}</div>
+                    <div class="w-9 h-9 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center js-card-user">${usr}</div>
                 </div>`
 
         colState.insertAdjacentHTML("beforeend", newCardHTML)
@@ -232,6 +234,9 @@ gridCards.addEventListener("click", function (event) {
 
     if (clickedCard) {
 
+        //recupero card che sta per essere modificata per il salvataggio successivo
+        cardEdit = clickedCard
+
         //recupero informazioni dalla mini-card
         const cardLabel = clickedCard.dataset.label
         const cardTitle = clickedCard.dataset.title
@@ -260,5 +265,87 @@ btnCloseEdit.addEventListener("click", openDialogError)
 //btnAddCheck
 btnCancelEdit.addEventListener("click", openDialogError)
 
-//logica recupero campi da mini card
+//logica checkbox
+const checkContainer = document.getElementById("checklist-container")
+const newCheckInput = document.getElementById("new-check-input")
 
+newCheckInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault() //evita la ricarica della pagina dal browser
+
+        const text = newCheckInput.value.trim()
+
+        if(text !== "") {
+            const newCheckHTML = `
+            <label class="flex items-center gap-3 p-2">
+                <input type="checkbox"  class="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500">
+                <span class="text-sm text-gray-700">${text}</span>
+            </label>`
+
+            checkContainer.insertAdjacentHTML("afterbegin", newCheckHTML)
+
+            newCheckInput.value = ""
+        }
+    }
+})
+
+//logica di salvataggio modify dialog
+btnSaveEdit.addEventListener("click", function () {
+    //lettura dei valori dal modale
+    //valori che finiscono visivamente nella minicard
+    const newTitle = document.getElementById("title-edit").value.trim()
+    const newExpire= document.getElementById("card-expire").value
+    const usr = document.getElementById("card-user")
+    const newUser = document.getElementById("card-user").value
+    const newState = document.getElementById("card-status")
+
+    //valori che si vedranno aggiornati solo quando si riapre il modale
+    const newStateValue = newState.value
+    const newStateText = newState.options[newState.selectedIndex].text
+
+    const newDescription = document.getElementById("description-edit").value
+    const safeNewDescription = newDescription.replace(/"/g, '&quot;')
+
+    const newUserText = usr.options[usr.selectedIndex].text
+    const newUserFull = newUserText.trim().split(" ")
+    let newUserFirst = ""
+
+    if(newUserFull.length >= 2) {
+        newUserFirst = newUserFull[0][0] + newUserFull[1][0]
+    }else {
+        newUserFirst = newUserFull[0][0]
+    }
+
+    //aggiornamento
+    cardEdit.dataset.title = newTitle
+    cardEdit.dataset.expire = newExpire
+    cardEdit.dataset.user = newUser
+    cardEdit.dataset.state = newStateValue
+    cardEdit.dataset.edit = newStateText
+    cardEdit.dataset.description = safeNewDescription
+
+    //aggiornamento della colonna dove si trova la card
+    let colDest
+
+    if(newStateValue === "to-do") {
+        colDest = document.getElementById("col-todo")
+    }else if(newStateValue === "in-progess") {
+        colDest = document.getElementById("col-inprogress")
+    }else if(newStateValue === "done") {
+        colDest = document.getElementById("col-done")
+    }
+
+    if(colDest) {
+        colDest.appendChild(cardEdit)
+    }
+
+    //mini card
+    cardEdit.querySelector(".js-card-title").textContent = newTitle
+    cardEdit.querySelector(".js-card-expire").textContent = newExpire
+    cardEdit.querySelector(".js-card-user").textContent = newUserFirst
+
+    cardEdit = null
+    dialogEdit.close()
+})
+
+//logica elimina attività (button delete)
