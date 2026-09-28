@@ -81,10 +81,6 @@ function closeNewActivity() {
     expireNewActivity.value = ""
 }
 
-btnNewActivity.addEventListener("click", function (event) {
-    dialogNew.showModal()
-})
-
 //event listeners
 btnNewActivity.addEventListener("click", function (event) {
     dialogNew.showModal()
