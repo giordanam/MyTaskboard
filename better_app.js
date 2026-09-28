@@ -1,24 +1,32 @@
 //definizione dello stato globale
-let tasks = [
-    {
-        id: "1",
-        title: "Testare l'architettura",
-        description: "Se vedo questa card, l'HTML funziona!",
-        labelValue: "dev-new",
-        labelText: "Sviluppo",
-        state: "to-do",
-        stateText: "Da fare",
-        userValue: "giordana",
-        userText: "Giordana Martucci",
-        expire: "2026-12-31"
-    }
-]
+let tasks = []
 
 //object mapping
 const columns = {
     "to-do": document.getElementById("col-todo"),
-    "in-progress": document.getElementById("col-in-progress"),
+    "in-progress": document.getElementById("col-inprogress"),
     "done": document.getElementById("col-done")
+}
+
+const stateLabels = {
+    "to-do": "Da fare",
+    "in-progress": "In corso",
+    "done": "Completato"
+}
+
+const categoryLabels = {
+    "design": "Design",
+    "dev": "Dev",
+    "bug": "Bug",
+    "release": "Release"
+}
+
+const userLabels = {
+    "giordana": "Giordana Martucci",
+    "lucio": "Lucio Morelli",
+    "delin": "Delin Squarcella",
+    "matteo": "Matteo Di Donato",
+    "federico": "Federico Micello"
 }
 
 //funzione che fa sempre updateUI quando ci sono modifiche
@@ -55,7 +63,6 @@ function updateUI() {
     })
 }
 
-//updateUI()
 //gestione del modale
 const taskDialog = document.getElementById("task-dialog")
 const taskForm = document.getElementById("task-form")
@@ -107,6 +114,10 @@ function openDialog(activity) {
     taskDialog.showModal()
 }
 
+function closeDialog() {
+    taskDialog.close()
+}
+
 //collegamento pulsanti
 //+ NUOVA ATTIVITA
 const btnNewActivity = document.getElementById("btn-new-act")
@@ -130,3 +141,42 @@ if (gridCards) {
 }
 
 //salvataggio
+taskForm.addEventListener("submit", function (event) {
+    event.preventDefault()
+
+    const formData = new FormData(taskForm)
+    const entries = Object.fromEntries(formData.entries())
+    const currentID = taskID.value
+
+    if(currentID === "") {
+        const newTask = {
+            id: crypto.randomUUID(),
+            title: entries.title,
+            description: entries.description,
+            labelValue: entries.category,
+            labelText: categoryLabels[entries.category],
+            state: entries.status,
+            stateText: stateLabels[entries.status],
+            userValue: entries.user,
+            userText: userLabels[entries.user],
+            expire: entries.expire
+        }
+
+        tasks.push(newTask)
+    }else {
+        const taskToUpdate = tasks.find((task) => task.id === currentID)
+
+        if(taskToUpdate) {
+            taskToUpdate.title = entries.title
+            taskToUpdate.description = entries.description
+            taskToUpdate.state = entries.status
+            taskToUpdate.stateText = stateLabels[entries.status]
+            taskToUpdate.userValue = entries.user
+            taskToUpdate.userText = userLabels[entries.user]
+            taskToUpdate.expire = entries.expire
+        }
+    }
+
+    updateUI()
+    closeDialog()
+})
