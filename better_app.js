@@ -55,7 +55,7 @@ function updateUI() {
     })
 }
 
-updateUI()
+//updateUI()
 //gestione del modale
 const taskDialog = document.getElementById("task-dialog")
 const taskForm = document.getElementById("task-form")
@@ -76,12 +76,12 @@ function openDialog(activity) {
     if(activity) {
         //se l'activity c'è siamo in modalità MODIFICA
         //popolo i dati che devo vedere
-        document.getElementById("task-title").value = activity.title
-        document.getElementById("task-description").value = activity.description
-        document.getElementById("task-label").value = activity.labelValue
-        document.getElementById("task-state").value = activity.state
-        document.getElementById("task-user").value = activity.userValue
-        document.getElementById("task-expire").value = activity.expire
+        taskForm.elements['title'].value = activity.title;
+        taskForm.elements['description'].value = activity.description || "";
+        taskForm.elements['category'].value = activity.labelValue;
+        taskForm.elements['status'].value = activity.state;
+        taskForm.elements['user'].value = activity.userValue;
+        taskForm.elements['expire'].value = activity.expire;
 
         //mostro ciò che c'è da mostrare
         taskLabel.textContent = activity.labelText
@@ -128,3 +128,5 @@ if (gridCards) {
         }
     })
 }
+
+//salvataggio
