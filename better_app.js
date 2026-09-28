@@ -21,6 +21,7 @@ const columns = {
     "done": document.getElementById("col-done")
 }
 
+//funzione che fa sempre updateUI quando ci sono modifiche
 function updateUI() {
     Object.values(columns).forEach(column => {if (column) column.innerHTML = ""})
 
@@ -55,3 +56,75 @@ function updateUI() {
 }
 
 updateUI()
+//gestione del modale
+const taskDialog = document.getElementById("task-dialog")
+const taskForm = document.getElementById("task-form")
+const taskID = document.getElementById("task-id")
+
+//elementi dinamici da nascondere/mostrare in caso di edit o new activity
+const btnDeleteActivity = document.getElementById("btn-del-activity")
+const checklistContainer =  document.getElementById("checklist-container")
+const taskLabel = document.getElementById("task-label")
+const taskState = document.getElementById("task-state")
+const taskCategory = document.getElementById("task-category")
+
+function openDialog(activity) {
+    taskForm.reset()
+    //salvo id nel campo nascosto (che ci sia o non ci sia)
+    taskID.value = activity ? activity.id : ""
+
+    if(activity) {
+        //se l'activity c'è siamo in modalità MODIFICA
+        //popolo i dati che devo vedere
+        document.getElementById("task-title").value = activity.title
+        document.getElementById("task-description").value = activity.description
+        document.getElementById("task-label").value = activity.labelValue
+        document.getElementById("task-state").value = activity.state
+        document.getElementById("task-user").value = activity.userValue
+        document.getElementById("task-expire").value = activity.expire
+
+        //mostro ciò che c'è da mostrare
+        taskLabel.textContent = activity.labelText
+        taskLabel.classList.remove("hidden")
+
+        taskState.textContent = activity.stateText
+        taskState.classList.remove("hidden")
+
+        btnDeleteActivity.classList.remove("hidden")
+        checklistContainer.classList.remove("hidden")
+
+        //categoria non cambiabile in modifica quindi la freezo
+        taskCategory.disabled = true
+    }else {
+        //modalità NUOVA ATTIVITA
+        taskLabel.classList.add("hidden")
+        taskState.classList.add("hidden")
+        btnDeleteActivity.classList.add("hidden")
+        checklistContainer.classList.add("hidden")
+        taskCategory.disabled = false
+    }
+
+    taskDialog.showModal()
+}
+
+//collegamento pulsanti
+//+ NUOVA ATTIVITA
+const btnNewActivity = document.getElementById("btn-new-act")
+if (btnNewActivity) {
+    btnNewActivity.addEventListener("click", (e) => {openDialog()})
+}
+
+const gridCards = document.getElementById("grid-cards")
+if (gridCards) {
+    gridCards.addEventListener("click", function (event) {
+        const clickedCard = event.target.closest(".task-card")
+
+        if(clickedCard) {
+            const taskID = clickedCard.dataset.id
+
+            const activityToEdit = tasks.find((task) => task.id === taskID)
+
+            openDialog(activityToEdit)
+        }
+    })
+}

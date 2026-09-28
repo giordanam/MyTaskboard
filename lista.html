@@ -144,16 +144,16 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                                     </svg>
                                     Descrizione</h3>
-                                <input type="text" name="description" id="task-description" class="w-full p-3 h-32 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600" placeholder="Aggiungi una descrizione...">
+                                <textarea name="description" id="task-description" class="w-full p-3 h-32 bg-gray-50 resize-none border border-gray-200 rounded-lg focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600" placeholder="Aggiungi una descrizione..."></textarea>
                             </div>
                             <!--DIV CHECKLIST-->
-                            <div>
+                            <div id="checklist-container" class="hidden">
                                 <h3 class="mb-2 mt-4 text-sm font-bold text-gray-700 flex items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                                     </svg>
                                     Checklist</h3>
-                                <div id="checklist-container" class="hidden space-y-2 mb-3">
+                                <div class="space-y-2 mb-3">
                                     <label class="flex items-center gap-3 p-2">
                                         <input type="checkbox" checked class="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500">
                                         <span class="text-sm text-gray-700"> Scrivere l'HTML di base</span>
@@ -211,8 +211,8 @@
                                     Timeline
                                 </h3>
                                 <div> <!--ERRORE SCADENZA-->
-                                    <label for="card-expire" class="mt-3 block text-xs font-bold text-gray-500">Scadenza</label>
-                                    <input type="date" name="data" id="card-expire" class="w-full bg-white border border-gray-200 text-sm rounded-md px-3 py-2 text-gray-700 focus:ring-2 focus:ring-sky-500 outline-none" required>
+                                    <label for="task-expire" class="mt-3 block text-xs font-bold text-gray-500">Scadenza</label>
+                                    <input type="date" name="data" id="task-expire" class="w-full bg-white border border-gray-200 text-sm rounded-md px-3 py-2 text-gray-700 focus:ring-2 focus:ring-sky-500 outline-none" required>
                                 </div>
                             </div>
                         </div>
