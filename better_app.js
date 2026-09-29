@@ -224,7 +224,6 @@ function applyFilters() {
     const categoryFilter = document.getElementById("category-filter").value
     const expireFilter = document.getElementById("expire-filter").value
     const userFilter = document.getElementById("user-filter").value
-    //const inputFilter = document.getElementById("search-input").value.toLowerCase()
 
     //filter()
     const taskFiltered = tasks.filter((task) => {
@@ -237,9 +236,6 @@ function applyFilters() {
         //match user
         const matchUser = userFilter === "" || task.userValue === userFilter
 
-        //match text
-        //const matchText = inputFilter === "" || task.title.toLowerCase().includes(inputFilter)
-
         return matchCategory && matchExpire && matchUser
     })
 
@@ -250,10 +246,21 @@ function cleanFilters() {
     formFilters.reset()
     updateUI()
 }
+
 const btnCleanFilters = document.getElementById("btn-clean-filters")
 if (btnCleanFilters) {
     btnCleanFilters.addEventListener("click", cleanFilters)
 }
+
+const searchInput =  document.getElementById("search-input")
+searchInput.addEventListener("input", searchFilter)
+
+function searchFilter() {
+    const taskFiltered = tasks.filter((task) =>  searchInput.value.toLowerCase() === "" || task.title.toLowerCase().includes(searchInput.value.toLowerCase()))
+
+    updateUI(taskFiltered)
+}
+
 
 
 
