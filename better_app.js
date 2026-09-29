@@ -213,7 +213,7 @@ if (btnFilters) {
 const formFilters = document.getElementById("form-filters")
 
 function showFilters() {
-    formFilters.classList.remove("hidden")
+    formFilters.classList.toggle("hidden")
 }
 
 const filters = document.getElementById("filters")
