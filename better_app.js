@@ -195,3 +195,12 @@ taskForm.addEventListener("submit", function (event) {
     updateUI()
     closeDialog()
 })
+
+//logica buttons dialog error
+const btnExitError = document.getElementById("btn-exit-err")
+const dialogErr = document.getElementById("dialog-err")
+btnExitError.addEventListener("click", function () {
+    dialogErr.close()
+    closeDialog()
+})
+
