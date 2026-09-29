@@ -16,7 +16,7 @@ const stateLabels = {
 
 const categoryLabels = {
     "design": "Design",
-    "dev": "Dev",
+    "dev": "Sviluppo",
     "bug": "Bug",
     "release": "Release"
 }
@@ -30,10 +30,10 @@ const userLabels = {
 }
 
 //funzione che fa sempre updateUI quando ci sono modifiche
-function updateUI() {
+function updateUI(tasksToRender = tasks) {
     Object.values(columns).forEach(column => {if (column) column.innerHTML = ""})
 
-    tasks.forEach(task => {
+    tasksToRender.forEach(task => {
         //estraggo SOLO i dati che mi servono
         const {id, title, labelText, state, userText, expire} = task
 
@@ -203,4 +203,57 @@ btnExitError.addEventListener("click", function () {
     dialogErr.close()
     closeDialog()
 })
+
+//filters
+//aggancio del pulsante filter
+const btnFilters = document.getElementById("btn-filters")
+if (btnFilters) {
+    btnFilters.addEventListener("click", showFilters)
+}
+const formFilters = document.getElementById("form-filters")
+
+function showFilters() {
+    formFilters.classList.remove("hidden")
+}
+
+const filters = document.getElementById("filters")
+filters.addEventListener("input", applyFilters)
+
+function applyFilters() {
+    //lettura dei value
+    const categoryFilter = document.getElementById("category-filter").value
+    const expireFilter = document.getElementById("expire-filter").value
+    const userFilter = document.getElementById("user-filter").value
+    //const inputFilter = document.getElementById("search-input").value.toLowerCase()
+
+    //filter()
+    const taskFiltered = tasks.filter((task) => {
+        //match categoria
+        const matchCategory =  categoryFilter === "" || task.labelValue === categoryFilter
+
+        //match expire date
+        const matchExpire = expireFilter === "" || task.expire === expireFilter
+
+        //match user
+        const matchUser = userFilter === "" || task.userValue === userFilter
+
+        //match text
+        //const matchText = inputFilter === "" || task.title.toLowerCase().includes(inputFilter)
+
+        return matchCategory && matchExpire && matchUser
+    })
+
+    updateUI(taskFiltered)
+}
+
+function cleanFilters() {
+    formFilters.reset()
+    updateUI()
+}
+const btnCleanFilters = document.getElementById("btn-clean-filters")
+if (btnCleanFilters) {
+    btnCleanFilters.addEventListener("click", cleanFilters)
+}
+
+
 
