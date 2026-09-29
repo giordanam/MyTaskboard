@@ -59,19 +59,19 @@
             </button>
             <!--FILTRI VERI E PROPRI-->
             <div id="filters" class="col-span-4 border-y border-sky-600 py-4 grid grid-cols-4 gap-4">
-                <select id="category-filter" class="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
+                <select required id="category-filter" class="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                     <option value="" disabled selected hidden>Seleziona etichetta...</option>
                     <option value="design" class="text-gray-900">Design</option>
                     <option value="dev" class="text-gray-900">Sviluppo</option>
                     <option value="release" class="text-gray-900">Release</option>
                     <option value="bug" class="text-gray-900">Bug</option>
                 </select>
-                <select id="expire-filter" class="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
+                <select required id="expire-filter" class="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                     <option value="" disabled selected hidden>Seleziona scadenza...</option>
                     <option value="expired" class="text-gray-900">Scaduto</option>
                     <option value="not-expired" class="text-gray-900">Non scaduto</option>
                 </select>
-                <select id="user-filter" class="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
+                <select required id="user-filter" class="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                     <option value="" disabled selected hidden>Seleziona utente...</option>
                     <option value="giordana" class="text-gray-900">Giordana Martucci</option>
                     <option value="lucio" class="text-gray-900">Lucio Morelli</option>
