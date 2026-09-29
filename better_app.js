@@ -119,6 +119,21 @@ function closeDialog() {
 }
 
 //collegamento pulsanti
+//logica elimina attività
+function deleteActivity(currentID) {
+    const taskDelIndex = tasks.findIndex((task) => task.id === currentID)
+    if (taskDelIndex > -1) {
+        tasks.splice(taskDelIndex, 1)
+
+        updateUI()
+        closeDialog()
+    }
+}
+
+btnDeleteActivity.addEventListener("click", function (event) {
+    deleteActivity(taskID.value)
+});
+
 //+ NUOVA ATTIVITA
 const btnNewActivity = document.getElementById("btn-new-act")
 if (btnNewActivity) {
