@@ -231,10 +231,12 @@ function applyFilters() {
         const matchCategory =  categoryFilter === "" || task.labelValue === categoryFilter
 
         //match expire date
-        const matchExpire = expireFilter === "" || task.expire === expireFilter
+        const today = new Date().toISOString().split('T')[0]
+        const matchExpire = expireFilter === "" || (expireFilter === "expired" && task.expire < today) || (expireFilter === "not-expired" && task.expire >= today)
 
         //match user
         const matchUser = userFilter === "" || task.userValue === userFilter
+
 
         return matchCategory && matchExpire && matchUser
     })

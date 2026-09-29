@@ -54,7 +54,7 @@
                 </svg>                  
                 Utente assegnato
             </span>
-            <button id="btn-clean-filters" class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 justify-self-end">
+            <button id="btn-clean-filters" type="button" class="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 justify-self-end">
                 Pulisci filtri
             </button>
             <!--FILTRI VERI E PROPRI-->
@@ -68,9 +68,8 @@
                 </select>
                 <select id="expire-filter" class="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                     <option value="" disabled selected hidden>Seleziona scadenza...</option>
-                    <option value="expire-today" class="text-gray-900">Scade oggi</option>
-                    <option value="expire-week" class="text-gray-900">Scade in settimana</option>
                     <option value="expired" class="text-gray-900">Scaduto</option>
+                    <option value="not-expired" class="text-gray-900">Non scaduto</option>
                 </select>
                 <select id="user-filter" class="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                     <option value="" disabled selected hidden>Seleziona utente...</option>
