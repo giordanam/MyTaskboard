@@ -1,11 +1,35 @@
 //definizione dello stato globale
 let tasks = []
 
+const taskDialog = document.getElementById("task-dialog")
+const taskForm = document.getElementById("task-form")
+const taskID = document.getElementById("task-id")
+const btnDeleteActivity = document.getElementById("btn-del-activity")
+const btnNewActivity = document.getElementById("btn-new-act")
+const checklistContainer =  document.getElementById("checklist-container")
+const taskLabel = document.getElementById("task-label")
+const taskState = document.getElementById("task-state")
+const taskCategory = document.getElementById("task-category")
+const gridCards = document.getElementById("grid-cards")
+const btnExitError = document.getElementById("btn-exit-err")
+const dialogErr = document.getElementById("dialog-err")
+const btnFilters = document.getElementById("btn-filters")
+const formFilters = document.getElementById("form-filters")
+const categoryFilter = document.getElementById("category-filter")
+const expireFilter = document.getElementById("expire-filter")
+const userFilter = document.getElementById("user-filter")
+const searchInput =  document.getElementById("search-input")
+const filters = document.getElementById("filters")
+const btnCleanFilters = document.getElementById("btn-clean-filters")
+const colTodo =  document.getElementById("col-todo")
+const colInProgress = document.getElementById("col-in-progress")
+const colDone = document.getElementById("col-done")
+
 //object mapping
 const columns = {
-    "to-do": document.getElementById("col-todo"),
-    "in-progress": document.getElementById("col-inprogress"),
-    "done": document.getElementById("col-done")
+    "to-do": colTodo,
+    "in-progress": colInProgress,
+    "done": colDone
 }
 
 const stateLabels = {
@@ -29,29 +53,8 @@ const userLabels = {
     "federico": "Federico Micello"
 }
 
-const taskDialog = document.getElementById("task-dialog")
-const taskForm = document.getElementById("task-form")
-const taskID = document.getElementById("task-id")
-const btnDeleteActivity = document.getElementById("btn-del-activity")
-const btnNewActivity = document.getElementById("btn-new-act")
-const checklistContainer =  document.getElementById("checklist-container")
-const taskLabel = document.getElementById("task-label")
-const taskState = document.getElementById("task-state")
-const taskCategory = document.getElementById("task-category")
-const gridCards = document.getElementById("grid-cards")
-const btnExitError = document.getElementById("btn-exit-err")
-const dialogErr = document.getElementById("dialog-err")
-const btnFilters = document.getElementById("btn-filters")
-const formFilters = document.getElementById("form-filters")
-const categoryFilter = document.getElementById("category-filter")
-const expireFilter = document.getElementById("expire-filter")
-const userFilter = document.getElementById("user-filter")
-const searchInput =  document.getElementById("search-input")
-const filters = document.getElementById("filters")
-const btnCleanFilters = document.getElementById("btn-clean-filters")
-
 btnDeleteActivity.addEventListener("click", () => deleteActivity(taskID.value))
-btnNewActivity.addEventListener("click", () => openDialog())
+btnNewActivity.addEventListener("click", openDialog)
 gridCards.addEventListener("click", handleCardClick)
 taskForm.addEventListener("submit", handleActivity)
 btnExitError.addEventListener("click", closeAllDialogs)
