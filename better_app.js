@@ -36,7 +36,6 @@ function updateUI(tasksToRender = tasks) {
     tasksToRender.forEach(task => {
         //estraggo SOLO i dati che mi servono
         const {id, title, labelText, state, userText, expire} = task
-
         //sistemo le iniziali per farle apparire a schermo
         const initials = userText.trim().split(/\s+/).map(word => word[0]).join("").substring(0,2).toUpperCase()
 
@@ -243,9 +242,11 @@ function applyFilters() {
 
     updateUI(taskFiltered)
 }
+const searchInput =  document.getElementById("search-input")
 
 function cleanFilters() {
     formFilters.reset()
+    searchInput.value = ''
     updateUI()
 }
 
@@ -254,7 +255,6 @@ if (btnCleanFilters) {
     btnCleanFilters.addEventListener("click", cleanFilters)
 }
 
-const searchInput =  document.getElementById("search-input")
 searchInput.addEventListener("input", searchFilter)
 
 function searchFilter() {
