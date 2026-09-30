@@ -215,34 +215,36 @@ function showFilters() {
     formFilters.classList.toggle("hidden")
 }
 
+const categoryFilter = document.getElementById("category-filter")
+const expireFilter = document.getElementById("expire-filter")
+const userFilter = document.getElementById("user-filter")
+const searchInput =  document.getElementById("search-input")
 const filters = document.getElementById("filters")
+
 filters.addEventListener("input", applyFilters)
+searchInput.addEventListener("input", applyFilters)
 
 function applyFilters() {
-    //lettura dei value
-    const categoryFilter = document.getElementById("category-filter").value
-    const expireFilter = document.getElementById("expire-filter").value
-    const userFilter = document.getElementById("user-filter").value
-
     //filter()
     const taskFiltered = tasks.filter((task) => {
         //match categoria
-        const matchCategory =  categoryFilter === "" || task.labelValue === categoryFilter
+        const matchCategory =  categoryFilter.value === "" || task.labelValue === categoryFilter.value
 
         //match expire date
         const today = new Date().toISOString().split('T')[0]
-        const matchExpire = expireFilter === "" || (expireFilter === "expired" && task.expire < today) || (expireFilter === "not-expired" && task.expire >= today)
+        const matchExpire = expireFilter.value === "" || (expireFilter.value === "expired" && task.expire < today) || (expireFilter.value === "not-expired" && task.expire >= today)
 
         //match user
-        const matchUser = userFilter === "" || task.userValue === userFilter
+        const matchUser = userFilter.value === "" || task.userValue === userFilter.value
 
+        //match text
+        const matchText = searchInput.value.toLowerCase() === "" || task.title.toLowerCase().includes(searchInput.value.toLowerCase())
 
-        return matchCategory && matchExpire && matchUser
+        return matchCategory && matchExpire && matchUser && matchText
     })
 
     updateUI(taskFiltered)
 }
-const searchInput =  document.getElementById("search-input")
 
 function cleanFilters() {
     formFilters.reset()
@@ -254,15 +256,3 @@ const btnCleanFilters = document.getElementById("btn-clean-filters")
 if (btnCleanFilters) {
     btnCleanFilters.addEventListener("click", cleanFilters)
 }
-
-searchInput.addEventListener("input", searchFilter)
-
-function searchFilter() {
-    const taskFiltered = tasks.filter((task) =>  searchInput.value.toLowerCase() === "" || task.title.toLowerCase().includes(searchInput.value.toLowerCase()))
-
-    updateUI(taskFiltered)
-}
-
-
-
-
