@@ -29,7 +29,37 @@ const userLabels = {
     "federico": "Federico Micello"
 }
 
-//funzione che fa sempre updateUI quando ci sono modifiche
+const taskDialog = document.getElementById("task-dialog")
+const taskForm = document.getElementById("task-form")
+const taskID = document.getElementById("task-id")
+const btnDeleteActivity = document.getElementById("btn-del-activity")
+const btnNewActivity = document.getElementById("btn-new-act")
+const checklistContainer =  document.getElementById("checklist-container")
+const taskLabel = document.getElementById("task-label")
+const taskState = document.getElementById("task-state")
+const taskCategory = document.getElementById("task-category")
+const gridCards = document.getElementById("grid-cards")
+const btnExitError = document.getElementById("btn-exit-err")
+const dialogErr = document.getElementById("dialog-err")
+const btnFilters = document.getElementById("btn-filters")
+const formFilters = document.getElementById("form-filters")
+const categoryFilter = document.getElementById("category-filter")
+const expireFilter = document.getElementById("expire-filter")
+const userFilter = document.getElementById("user-filter")
+const searchInput =  document.getElementById("search-input")
+const filters = document.getElementById("filters")
+const btnCleanFilters = document.getElementById("btn-clean-filters")
+
+btnDeleteActivity.addEventListener("click", () => deleteActivity(taskID.value))
+btnNewActivity.addEventListener("click", () => openDialog())
+gridCards.addEventListener("click", handleCardClick)
+taskForm.addEventListener("submit", handleActivity)
+btnExitError.addEventListener("click", closeAllDialogs)
+btnFilters.addEventListener("click", showFilters)
+filters.addEventListener("input", applyFilters)
+searchInput.addEventListener("input", applyFilters)
+btnCleanFilters.addEventListener("click", cleanFilters)
+
 function updateUI(tasksToRender = tasks) {
     Object.values(columns).forEach(column => {if (column) column.innerHTML = ""})
 
@@ -61,18 +91,6 @@ function updateUI(tasksToRender = tasks) {
         columns[state]?.insertAdjacentHTML("beforeend", cardHTML)
     })
 }
-
-//gestione del modale
-const taskDialog = document.getElementById("task-dialog")
-const taskForm = document.getElementById("task-form")
-const taskID = document.getElementById("task-id")
-
-//elementi dinamici da nascondere/mostrare in caso di edit o new activity
-const btnDeleteActivity = document.getElementById("btn-del-activity")
-const checklistContainer =  document.getElementById("checklist-container")
-const taskLabel = document.getElementById("task-label")
-const taskState = document.getElementById("task-state")
-const taskCategory = document.getElementById("task-category")
 
 function openDialog(activity) {
     taskForm.reset()
@@ -117,8 +135,6 @@ function closeDialog() {
     taskDialog.close()
 }
 
-//collegamento pulsanti
-//logica elimina attività
 function deleteActivity(currentID) {
     const taskDelIndex = tasks.findIndex((task) => task.id === currentID)
     if (taskDelIndex > -1) {
@@ -129,33 +145,20 @@ function deleteActivity(currentID) {
     }
 }
 
-btnDeleteActivity.addEventListener("click", function (event) {
-    deleteActivity(taskID.value)
-});
+function handleCardClick(event) {
+    const clickedCard = event.target.closest(".task-card")
 
-//+ NUOVA ATTIVITA
-const btnNewActivity = document.getElementById("btn-new-act")
-if (btnNewActivity) {
-    btnNewActivity.addEventListener("click", (e) => {openDialog()})
+    if(clickedCard) {
+        const taskID = clickedCard.dataset.id
+
+        const activityToEdit = tasks.find((task) => task.id === taskID)
+
+        openDialog(activityToEdit)
+    }
 }
 
-const gridCards = document.getElementById("grid-cards")
-if (gridCards) {
-    gridCards.addEventListener("click", function (event) {
-        const clickedCard = event.target.closest(".task-card")
-
-        if(clickedCard) {
-            const taskID = clickedCard.dataset.id
-
-            const activityToEdit = tasks.find((task) => task.id === taskID)
-
-            openDialog(activityToEdit)
-        }
-    })
-}
-
-//salvataggio
-taskForm.addEventListener("submit", function (event) {
+//function that create or edit an activity
+function handleActivity(event) {
     event.preventDefault()
 
     const formData = new FormData(taskForm)
@@ -193,36 +196,17 @@ taskForm.addEventListener("submit", function (event) {
 
     updateUI()
     closeDialog()
-})
+}
 
-//logica buttons dialog error
-const btnExitError = document.getElementById("btn-exit-err")
-const dialogErr = document.getElementById("dialog-err")
-btnExitError.addEventListener("click", function () {
+function closeAllDialogs() {
     dialogErr.close()
     closeDialog()
-})
+}
 
 //filters
-//aggancio del pulsante filter
-const btnFilters = document.getElementById("btn-filters")
-if (btnFilters) {
-    btnFilters.addEventListener("click", showFilters)
-}
-const formFilters = document.getElementById("form-filters")
-
 function showFilters() {
     formFilters.classList.toggle("hidden")
 }
-
-const categoryFilter = document.getElementById("category-filter")
-const expireFilter = document.getElementById("expire-filter")
-const userFilter = document.getElementById("user-filter")
-const searchInput =  document.getElementById("search-input")
-const filters = document.getElementById("filters")
-
-filters.addEventListener("input", applyFilters)
-searchInput.addEventListener("input", applyFilters)
 
 function applyFilters() {
     //filter()
@@ -250,9 +234,4 @@ function cleanFilters() {
     formFilters.reset()
     searchInput.value = ''
     updateUI()
-}
-
-const btnCleanFilters = document.getElementById("btn-clean-filters")
-if (btnCleanFilters) {
-    btnCleanFilters.addEventListener("click", cleanFilters)
 }
