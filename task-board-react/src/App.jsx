@@ -39,8 +39,17 @@ function App() {
     }
   ])
 
-  function addTask(newTask) {
+  const [isModalOpen, setModalOpen] = useState(false)
+  const [selectedTask, setSelectedTask] = useState(null)
+
+  function addTask(newTaskData) {
+    const newTask = {
+      ...newTaskData,
+      id: crypto.randomUUID()
+    }
+
     setTasks([...tasks, newTask])
+    setModalOpen(false)
   }
 
   function deleteTask(id) {
@@ -56,7 +65,7 @@ function App() {
         <div className="max-w-7xl mx-auto">
           <header className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold">Le mie attività</h1>
-            <button id="btn-new-act" className="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2">
+            <button id="btn-new-act" className="cursor-pointer bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2" onClick={() => {setModalOpen(true); setSelectedTask(null);}}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
               </svg>
@@ -103,20 +112,17 @@ function App() {
                 Utente assegnato
             </span>
             <div id="filters" className="col-span-4 border-y border-sky-600 py-4 grid grid-cols-4 gap-4">
-              <select required id="category-filter" defaultValue="" className="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
-                <option value="" disabled hidden>Seleziona etichetta...</option>
+              <select required id="category-filter" defaultValue="Seleziona etichetta..." className="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                 <option value="design" className="text-gray-900">Design</option>
                 <option value="dev" className="text-gray-900">Sviluppo</option>
                 <option value="release" className="text-gray-900">Release</option>
                 <option value="bug" className="text-gray-900">Bug</option>
               </select>
-              <select required id="expire-filter" defaultValue="" className="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
-                <option value="" disabled hidden>Seleziona scadenza...</option>
+              <select required id="expire-filter" defaultValue="Seleziona Scadenza" className="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                 <option value="expired" className="text-gray-900">Scaduto</option>
                 <option value="not-expired" className="text-gray-900">Non scaduto</option>
               </select>
-              <select required id="user-filter" defaultValue="" className="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
-                <option value="" disabled hidden>Seleziona utente...</option>
+              <select required id="user-filter" defaultValue="Seleziona utente" className="py-2 text-gray-900 invalid:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                 <option value="giordana" className="text-gray-900">Giordana Martucci</option>
                 <option value="lucio" className="text-gray-900">Lucio Morelli</option>
                 <option value="matteo" className="text-gray-900">Matteo di Donato</option>
@@ -127,7 +133,7 @@ function App() {
           </form>
           <List tasks={tasks}/>
         </div>
-        <DetailModal />
+        {isModalOpen && <DetailModal onClose={() => setModalOpen(false)} task={selectedTask} addTask={addTask} />}
       </div>
   )
 }

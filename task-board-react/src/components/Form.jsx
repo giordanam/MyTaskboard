@@ -1,10 +1,20 @@
-export default function Form() {
+export default function Form({onClose, task, addTask}) {
+    const isNewTask = task === null
+
+    function handleSubmit(e) {
+        e.preventDefault()
+
+        const formData = new FormData(e.target)
+        const taskData = Object.fromEntries(formData.entries())
+        addTask(taskData)
+    }
+
     return(
-        <form id="task-form">
+        <form id="task-form" onSubmit={handleSubmit}>
             <input type="hidden" id="task-id" name="id" value=""/>
             <div className="flex flex-col max-h-[90vh]">
                 <button id="btn-close" type="button" command="show-modal" commandfor="dialog-err"
-                        className="bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10">
+                        className="bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10" onClick={onClose}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                          stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12"/>
@@ -34,40 +44,42 @@ export default function Form() {
                                           className="w-full p-3 h-32 bg-gray-50 resize-none border border-gray-200 rounded-lg focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600"
                                           placeholder="Aggiungi una descrizione..."></textarea>
                             </div>
-                            <div id="checklist-container" className="hidden">
-                                <h3 className="mb-2 mt-4 text-sm font-bold text-gray-700 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         strokeWidth="1.5" stroke="currentColor" className="size-4">
-                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                              d="m4.5 12.75 6 6 9-13.5"/>
-                                    </svg>
-                                    Checklist
-                                </h3>
-                                <div className="space-y-2 mb-3">
-                                    <label className="flex items-center gap-3 p-2">
-                                        <input type="checkbox" checked
-                                               className="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"/>
-                                        <span className="text-sm text-gray-700"> Scrivere l'HTML di base</span>
-                                    </label>
-                                    <label className="flex items-center gap-3 p-2">
-                                        <input type="checkbox"
-                                               className="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"/>
-                                        <span
-                                            className="text-sm text-gray-700"> Inserire la nuova palette di colori</span>
-                                    </label>
-                                    <div className="flex items-center gap-3 p-2 mt-1">
+                            {!isNewTask && (
+                                <div id="checklist-container">
+                                    <h3 className="mb-2 mt-4 text-sm font-bold text-gray-700 flex items-center gap-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             strokeWidth="1.5" stroke="currentColor"
-                                             className="size-4 text-gray-400">
+                                             strokeWidth="1.5" stroke="currentColor" className="size-4">
                                             <path strokeLinecap="round" strokeLinejoin="round"
-                                                  d="M12 4.5v15m7.5-7.5h-15"/>
+                                                  d="m4.5 12.75 6 6 9-13.5"/>
                                         </svg>
-                                        <input type="text" id="task-checklist" name="checklist"
-                                               placeholder="Aggiungi elemento..."
-                                               className="w-full text-sm bg-transparent border-b focus:border-sky-500 focus:outline-none text-gray-700 pb-1"/>
+                                        Checklist
+                                    </h3>
+                                    <div className="space-y-2 mb-3">
+                                        <label className="flex items-center gap-3 p-2">
+                                            <input type="checkbox" defaultChecked
+                                                   className="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"/>
+                                            <span className="text-sm text-gray-700"> Scrivere l'HTML di base</span>
+                                        </label>
+                                        <label className="flex items-center gap-3 p-2">
+                                            <input type="checkbox"
+                                                   className="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"/>
+                                            <span
+                                                className="text-sm text-gray-700"> Inserire la nuova palette di colori</span>
+                                        </label>
+                                        <div className="flex items-center gap-3 p-2 mt-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 strokeWidth="1.5" stroke="currentColor"
+                                                 className="size-4 text-gray-400">
+                                                <path strokeLinecap="round" strokeLinejoin="round"
+                                                      d="M12 4.5v15m7.5-7.5h-15"/>
+                                            </svg>
+                                            <input type="text" id="task-checklist" name="checklist"
+                                                   placeholder="Aggiungi elemento..."
+                                                   className="w-full text-sm bg-transparent border-b focus:border-sky-500 focus:outline-none text-gray-700 pb-1"/>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                         <div className="col col-span-1 flex flex-col">
                             <div>
@@ -81,26 +93,26 @@ export default function Form() {
                                 </h3>
                                 <label htmlFor="task-category"
                                        className="mt-3 block text-xs font-bold text-gray-500">Categoria</label>
-                                <select id="task-category" name="category"
+                                <select id="task-category" name="category" defaultValue="design"
                                         className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl">
-                                    <option selected value="design">Design</option>
+                                    <option value="design">Design</option>
                                     <option value="dev">Sviluppo</option>
                                     <option value="bug">Bug</option>
                                     <option value="release">Release</option>
                                 </select>
                                 <label htmlFor="task-status"
                                        className="mt-3 block text-xs font-bold text-gray-500">Stato</label>
-                                <select id="task-status" name="status"
+                                <select id="task-status" name="status" defaultValue="Da fare"
                                         className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl">
-                                    <option value="to-do" selected>Da fare</option>
+                                    <option value="to-do">Da fare</option>
                                     <option value="in-progress">In corso</option>
                                     <option value="done">Completato</option>
                                 </select>
                                 <label htmlFor="task-user" className="mt-3 block text-xs font-bold text-gray-500">Assegnato
                                     a</label>
-                                <select id="task-user" name="user"
+                                <select id="task-user" name="user" defaultValue="giordana"
                                         className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl">
-                                    <option selected value="giordana">Giordana Martucci</option>
+                                    <option value="giordana">Giordana Martucci</option>
                                     <option value="lucio">Lucio Morelli</option>
                                     <option value="delin">Delin Squarcella</option>
                                     <option value="matteo">Matteo di Donato</option>
@@ -127,18 +139,19 @@ export default function Form() {
                         </div>
                     </div>
                 </div>
-                <div
-                    className="px-8 py-5 border-t w-full border-gray-100 flex justify-between items-center bg-gray-50">
-                    <div className="flex flex-col items-start gap-1">
-                        <button id="btn-del-activity" type="button"
-                                className="text-sm mt-2 font-medium text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-md flex items-center gap-1.5">
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                            </svg>
-                            Elimina Attività
-                        </button>
-                    </div>
+                <div className="px-8 py-5 border-t w-full border-gray-100 flex justify-between items-center bg-gray-50">
+                    {!isNewTask && (
+                        <div className="flex flex-col items-start gap-1">
+                            <button id="btn-del-activity" type="button"
+                                    className="text-sm mt-2 font-medium text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-md flex items-center gap-1.5">
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                                Elimina Attività
+                            </button>
+                        </div>
+                    )}
                     <div className="flex gap-2">
                         <button id="btn-save-edit" type="submit"
                                 className="bg-sky-500 hover:bg-sky-600 rounded-xl px-5 py-1 text-gray-700">Salva
