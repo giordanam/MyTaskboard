@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import List from './components/List.jsx'
+import DetailModal from './components/DetailModal.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,6 +13,7 @@ function App() {
           </header>
           <List />
         </div>
+        <DetailModal />
       </div>
   )
 }
