@@ -13,8 +13,8 @@ export default function Form({onClose, task, addTask}) {
         <form id="task-form" onSubmit={handleSubmit}>
             <input type="hidden" id="task-id" name="id" value=""/>
             <div className="flex flex-col max-h-[90vh]">
-                <button id="btn-close" type="button" command="show-modal" commandfor="dialog-err"
-                        className="bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10" onClick={onClose}>
+                <button id="btn-close" type="button"
+                        className="cursor-pointer bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10" onClick={onClose}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                          stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12"/>
