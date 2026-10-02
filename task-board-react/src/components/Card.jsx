@@ -1,10 +1,25 @@
-export default function Card() {
+export default function Card({task}) {
+    const userInitials = {
+        giordana: "GM",
+        lucio: "LM",
+        matteo: "MD",
+        federico: "FM",
+        delin: "DS"
+    };
+
+    const categoryLabels = {
+        design: "Design",
+        dev: "Sviluppo",
+        release: "Release",
+        bug: "Bug"
+    }
+
     return (
-        <div className="bg-white p-4 rounded-lg shadow task-card cursor-pointer" data-id="${id}">
+        <div className="bg-white p-4 rounded-lg shadow task-card cursor-pointer" data-id="${tasks.id}">
             <div className="mb-2">
-                <span className="inline-block px-2 py-1 font-bold text-sky-700 bg-sky-100 rounded">Design</span>
+                <span className="inline-block px-2 py-1 font-bold text-sky-700 bg-sky-100 rounded">{categoryLabels[task.category]}</span>
             </div>
-            <h3 className="text-sm font-bold text-gray-800 mb-4 js-card-title">Creare logo</h3>
+            <h3 className="text-sm font-bold text-gray-800 mb-4 js-card-title">{task.title}</h3>
             <div className="flex justify-between items-center mt-auto">
                 <div className="flex items-center gap-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
@@ -12,10 +27,10 @@ export default function Card() {
                         <path strokeLinecap="round" strokeLinejoin="round"
                               d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/>
                     </svg>
-                    <span className="js-card-expire">2026-10-10</span>
+                    <span className="js-card-expire">{task.expire}</span>
                 </div>
                 <div
-                    className="w-9 h-9 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center js-card-user">GM</div>
+                    className="w-9 h-9 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center js-card-user">{userInitials[task.user]}</div>
             </div>
         </div>
     )

@@ -125,7 +125,7 @@ function App() {
               </select>
             </div>
           </form>
-          <List />
+          <List tasks={tasks}/>
         </div>
         <DetailModal />
       </div>

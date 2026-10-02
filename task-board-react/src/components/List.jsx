@@ -1,6 +1,6 @@
 import Card from './Card.jsx'
 
-export default function List() {
+export default function List({tasks}) {
     return(
         <div id="grid-cards" className="grid grid-cols-3 mt-5 gap-6">
             <div className="bg-gray-100 p-4 rounded-lg">
@@ -11,7 +11,7 @@ export default function List() {
                     Da fare
                 </h2>
                 <div id="col-todo" className="flex flex-col gap-4">
-                    <Card/>
+                    {tasks.filter((task) => task.status === 'to-do').map(task => <Card key={task.id} task={task}/>)}
                 </div>
             </div>
             <div className="bg-gray-100 p-4 rounded-lg">
@@ -22,7 +22,7 @@ export default function List() {
                     In corso
                 </h2>
                 <div id="col-inprogress" className="flex flex-col gap-4">
-                    <Card/>
+                    {tasks.filter((task) => task.status === 'in-progress').map(task => <Card key={task.id} task={task}/>)}
                 </div>
             </div>
             <div className="bg-gray-100 p-4 rounded-lg">
@@ -33,7 +33,7 @@ export default function List() {
                     Completato
                 </h2>
                 <div id="col-done" className="flex flex-col gap-4">
-                    <Card/>
+                    {tasks.filter((task) => task.status === 'done').map(task => <Card key={task.id} task={task}/>)}
                 </div>
             </div>
         </div>
