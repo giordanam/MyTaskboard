@@ -1,4 +1,4 @@
-export default function Form({onClose, task, addTask}) {
+export default function Form({onClose, task, onSave}) {
     const isNewTask = task === null
 
     function handleSubmit(e) {
@@ -6,7 +6,7 @@ export default function Form({onClose, task, addTask}) {
 
         const formData = new FormData(e.target)
         const taskData = Object.fromEntries(formData.entries())
-        addTask(taskData)
+        onSave(taskData)
     }
 
     return(
@@ -22,9 +22,9 @@ export default function Form({onClose, task, addTask}) {
                 </button>
                 <div className="p-8 flex-1 overflow-y-auto">
                     <div className="mb-8 pr-10">
-                            <span id="task-label"
+                        <span id="task-label"
                                   className="hidden mt-6 px-2 py-1 font-bold text-sky-700 bg-sky-100 rounded"></span>
-                        <input id="task-title" type="text" name="title" placeholder="Titolo"
+                        <input id="task-title" type="text" name="title" placeholder="Titolo" defaultValue={task ? task.title : ''}
                                className="w-full text-3xl font-bold focus:outline-none" required/>
                         <span id="task-state"
                               className="hidden mt-4 px-2 py-1 font-bold text-green-700 bg-green-100 rounded"></span>
@@ -40,7 +40,7 @@ export default function Form({onClose, task, addTask}) {
                                     </svg>
                                     Descrizione
                                 </h3>
-                                <textarea name="description" id="task-description"
+                                <textarea name="description" id="task-description" defaultValue={task ? task.description : ''}
                                           className="w-full p-3 h-32 bg-gray-50 resize-none border border-gray-200 rounded-lg focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600"
                                           placeholder="Aggiungi una descrizione..."></textarea>
                             </div>
@@ -93,16 +93,21 @@ export default function Form({onClose, task, addTask}) {
                                 </h3>
                                 <label htmlFor="task-category"
                                        className="mt-3 block text-xs font-bold text-gray-500">Categoria</label>
-                                <select id="task-category" name="category" defaultValue="design"
-                                        className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl">
+                                <select id="task-category" name={isNewTask ? "category" : ''} defaultValue={task ? task.category : "design"}
+                                        className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl
+                                         ${!isNewTask ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-900'}`}}"
+                                        disabled={!isNewTask}>
                                     <option value="design">Design</option>
                                     <option value="dev">Sviluppo</option>
                                     <option value="bug">Bug</option>
                                     <option value="release">Release</option>
                                 </select>
+                                {!isNewTask && (
+                                    <input type="hidden" name="category" value={task.category} />
+                                )}
                                 <label htmlFor="task-status"
                                        className="mt-3 block text-xs font-bold text-gray-500">Stato</label>
-                                <select id="task-status" name="status" defaultValue="Da fare"
+                                <select id="task-status" name="status" defaultValue={task ? task.status : "to-do"}
                                         className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl">
                                     <option value="to-do">Da fare</option>
                                     <option value="in-progress">In corso</option>
@@ -110,7 +115,7 @@ export default function Form({onClose, task, addTask}) {
                                 </select>
                                 <label htmlFor="task-user" className="mt-3 block text-xs font-bold text-gray-500">Assegnato
                                     a</label>
-                                <select id="task-user" name="user" defaultValue="giordana"
+                                <select id="task-user" name="user" defaultValue={task ? task.user : "giordana"}
                                         className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl">
                                     <option value="giordana">Giordana Martucci</option>
                                     <option value="lucio">Lucio Morelli</option>
@@ -131,7 +136,7 @@ export default function Form({onClose, task, addTask}) {
                                 <div>
                                     <label htmlFor="task-expire"
                                            className="mt-3 block text-xs font-bold text-gray-500">Scadenza</label>
-                                    <input type="date" name="expire" id="task-expire"
+                                    <input type="date" name="expire" id="task-expire" defaultValue={task ? task.expire : ''}
                                            className="w-full bg-white border border-gray-200 text-sm rounded-md px-3 py-2 text-gray-700 focus:ring-2 focus:ring-sky-500 outline-none"
                                            required/>
                                 </div>

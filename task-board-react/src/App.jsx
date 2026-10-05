@@ -65,6 +65,21 @@ function App() {
     setModalOpen(true)
   }
 
+  function handleSaveForm(tasks) {
+    if(selectedTask) {
+      const updatedTask = {...tasks, id: selectedTask.id}
+
+      editTask(updatedTask)
+    }else {
+      const newTask = {...tasks, id: crypto.randomUUID() }
+
+      addTask(newTask)
+    }
+
+    setModalOpen(false)
+    setSelectedTask(null)
+  }
+
   return (
       <div className="bg-gray-100 text-gray-800 p-6 min-h-screen">
         <div className="max-w-7xl mx-auto">
@@ -138,7 +153,7 @@ function App() {
           </form>
           <List tasks={tasks} onEditTask={handleEditTask}/>
         </div>
-        {isModalOpen && <DetailModal onClose={() => setModalOpen(false)} task={selectedTask} addTask={addTask} />}
+        {isModalOpen && <DetailModal onClose={() => setModalOpen(false)} onSave={handleSaveForm} task={selectedTask} addTask={addTask} />}
       </div>
   )
 }

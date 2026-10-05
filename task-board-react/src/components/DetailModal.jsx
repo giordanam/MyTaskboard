@@ -1,13 +1,13 @@
 import {useState} from 'react'
 import Form from "./Form.jsx";
 
-export default function DetailModal({onClose, task, addTask}) {
+export default function DetailModal({onClose, task, addTask, onSave}) {
     const [showWarning, setShowWarning] = useState(false)
     return (
         <>
             <div className="fixed inset-0 bg-black/60 z-40 flex items-center justify-center p-4">
                 <div className="relative bg-white rounded-xl w-full max-w-2xl p-0 overflow-hidden max-h-[90vh]">
-                    <Form onClose={() => setShowWarning(true)} task={task} addTask={addTask}/>
+                    <Form onClose={() => setShowWarning(true)} task={task} addTask={addTask} onSave={onSave}/>
                 </div>
             </div>
 
