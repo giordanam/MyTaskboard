@@ -1,17 +1,42 @@
+import {useState} from 'react'
+
 export default function Form({onClose, task, onSave, onDelete}) {
     const isNewTask = task === null
+    const [checklist, setChecklist] = useState(task ? task.checklist : [])
+    const [newItemText, setNewItemText] = useState('')
+
+    function toggleChecklistItem(itemId) {
+        setChecklist(checklist.map(item =>
+            item.id === itemId ? {...item, done: !item.done} : item
+        ))
+    }
+
+    function addChecklistItem() {
+        const text = newItemText.trim()
+        if (!text) return
+
+        setChecklist([...checklist, {id: crypto.randomUUID(), text, done: false}])
+        setNewItemText('')
+    }
+
+    function handleNewItemKeyDown(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault()
+            addChecklistItem()
+        }
+    }
 
     function handleSubmit(e) {
         e.preventDefault()
 
         const formData = new FormData(e.target)
         const taskData = Object.fromEntries(formData.entries())
+        taskData.checklist = isNewTask ? [] : checklist
         onSave(taskData)
     }
 
     return(
         <form id="task-form" onSubmit={handleSubmit}>
-            <input type="hidden" id="task-id" name="id" value=""/>
             <div className="flex flex-col max-h-[90vh]">
                 <button id="btn-close" type="button"
                         className="cursor-pointer bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10" onClick={onClose}>
@@ -22,12 +47,8 @@ export default function Form({onClose, task, onSave, onDelete}) {
                 </button>
                 <div className="p-8 flex-1 overflow-y-auto">
                     <div className="mb-8 pr-10">
-                        <span id="task-label"
-                                  className="hidden mt-6 px-2 py-1 font-bold text-sky-700 bg-sky-100 rounded"></span>
                         <input id="task-title" type="text" name="title" placeholder="Titolo" defaultValue={task ? task.title : ''}
                                className="w-full text-3xl font-bold focus:outline-none" required/>
-                        <span id="task-state"
-                              className="hidden mt-4 px-2 py-1 font-bold text-green-700 bg-green-100 rounded"></span>
                     </div>
                     <div className="grid grid-cols-3 gap-8">
                         <div className="col-span-2 flex flex-col">
@@ -55,25 +76,27 @@ export default function Form({onClose, task, onSave, onDelete}) {
                                         Checklist
                                     </h3>
                                     <div className="space-y-2 mb-3">
-                                        <label className="flex items-center gap-3 p-2">
-                                            <input type="checkbox" defaultChecked
-                                                   className="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"/>
-                                            <span className="text-sm text-gray-700"> Scrivere l'HTML di base</span>
-                                        </label>
-                                        <label className="flex items-center gap-3 p-2">
-                                            <input type="checkbox"
-                                                   className="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"/>
-                                            <span
-                                                className="text-sm text-gray-700"> Inserire la nuova palette di colori</span>
-                                        </label>
+                                        {checklist.map(item => (
+                                            <label key={item.id} className="flex items-center gap-3 p-2">
+                                                <input type="checkbox" checked={item.done}
+                                                       onChange={() => toggleChecklistItem(item.id)}
+                                                       className="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"/>
+                                                <span className="text-sm text-gray-700"> {item.text}</span>
+                                            </label>
+                                        ))}
                                         <div className="flex items-center gap-3 p-2 mt-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 strokeWidth="1.5" stroke="currentColor"
-                                                 className="size-4 text-gray-400">
-                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                      d="M12 4.5v15m7.5-7.5h-15"/>
-                                            </svg>
-                                            <input type="text" id="task-checklist" name="checklist"
+                                            <button type="button" onClick={addChecklistItem}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     strokeWidth="1.5" stroke="currentColor"
+                                                     className="size-4 text-gray-400">
+                                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                                          d="M12 4.5v15m7.5-7.5h-15"/>
+                                                </svg>
+                                            </button>
+                                            <input type="text" id="task-checklist"
+                                                   value={newItemText}
+                                                   onChange={(e) => setNewItemText(e.target.value)}
+                                                   onKeyDown={handleNewItemKeyDown}
                                                    placeholder="Aggiungi elemento..."
                                                    className="w-full text-sm bg-transparent border-b focus:border-sky-500 focus:outline-none text-gray-700 pb-1"/>
                                         </div>

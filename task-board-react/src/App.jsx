@@ -49,7 +49,6 @@ function App() {
     }
 
     setTasks([...tasks, newTask])
-    setModalOpen(false)
   }
 
   function deleteTask(id) {
@@ -67,15 +66,13 @@ function App() {
     setModalOpen(true)
   }
 
-  function handleSaveForm(tasks) {
+  function handleSaveForm(taskData) {
     if(selectedTask) {
-      const updatedTask = {...tasks, id: selectedTask.id}
+      const updatedTask = {...taskData, id: selectedTask.id}
 
       editTask(updatedTask)
     }else {
-      const newTask = {...tasks, id: crypto.randomUUID() }
-
-      addTask(newTask)
+      addTask(taskData)
     }
 
     setModalOpen(false)

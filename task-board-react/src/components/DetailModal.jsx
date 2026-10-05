@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import Form from "./Form.jsx";
 
-export default function DetailModal({onClose, task, addTask, onSave, onDelete}) {
+export default function DetailModal({onClose, task, onSave, onDelete}) {
     const [showWarning, setShowWarning] = useState(false)
     return (
         <>
