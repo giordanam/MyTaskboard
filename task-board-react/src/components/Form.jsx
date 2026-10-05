@@ -130,7 +130,7 @@ export default function Form({onClose, task, onSave, onDelete}) {
                                 <label htmlFor="task-status"
                                        className="mt-3 block text-xs font-bold text-gray-500">Stato</label>
                                 <select id="task-status" name="status" defaultValue={task ? task.status : "to-do"}
-                                        className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl">
+                                        className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                                     <option value="to-do">Da fare</option>
                                     <option value="in-progress">In corso</option>
                                     <option value="done">Completato</option>
@@ -138,7 +138,7 @@ export default function Form({onClose, task, onSave, onDelete}) {
                                 <label htmlFor="task-user" className="mt-3 block text-xs font-bold text-gray-500">Assegnato
                                     a</label>
                                 <select id="task-user" name="user" defaultValue={task ? task.user : "giordana"}
-                                        className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl">
+                                        className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                                     <option value="giordana">Giordana Martucci</option>
                                     <option value="lucio">Lucio Morelli</option>
                                     <option value="delin">Delin Squarcella</option>
