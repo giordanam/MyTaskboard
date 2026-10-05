@@ -60,6 +60,11 @@ function App() {
     setTasks(tasks.map(task => task.id === updatedTask.id ? updatedTask : task))
   }
 
+  function handleEditTask(taskToEdit)  {
+    setSelectedTask(taskToEdit)
+    setModalOpen(true)
+  }
+
   return (
       <div className="bg-gray-100 text-gray-800 p-6 min-h-screen">
         <div className="max-w-7xl mx-auto">
@@ -131,7 +136,7 @@ function App() {
               </select>
             </div>
           </form>
-          <List tasks={tasks}/>
+          <List tasks={tasks} onEditTask={handleEditTask}/>
         </div>
         {isModalOpen && <DetailModal onClose={() => setModalOpen(false)} task={selectedTask} addTask={addTask} />}
       </div>

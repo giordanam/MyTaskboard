@@ -1,4 +1,4 @@
-export default function Card({task}) {
+export default function Card({task, onEditTask}) {
     const userInitials = {
         giordana: "GM",
         lucio: "LM",
@@ -15,7 +15,7 @@ export default function Card({task}) {
     }
 
     return (
-        <div className="bg-white p-4 rounded-lg shadow task-card cursor-pointer" data-id="${tasks.id}">
+        <div onClick={onEditTask} className="bg-white p-4 rounded-lg shadow task-card cursor-pointer" data-id="${tasks.id}">
             <div className="mb-2">
                 <span className="inline-block px-2 py-1 font-bold text-sky-700 bg-sky-100 rounded">{categoryLabels[task.category]}</span>
             </div>
