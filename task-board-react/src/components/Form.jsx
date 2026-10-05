@@ -1,4 +1,4 @@
-export default function Form({onClose, task, onSave}) {
+export default function Form({onClose, task, onSave, onDelete}) {
     const isNewTask = task === null
 
     function handleSubmit(e) {
@@ -94,8 +94,7 @@ export default function Form({onClose, task, onSave}) {
                                 <label htmlFor="task-category"
                                        className="mt-3 block text-xs font-bold text-gray-500">Categoria</label>
                                 <select id="task-category" name={isNewTask ? "category" : ''} defaultValue={task ? task.category : "design"}
-                                        className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-aky-600 rounded-xl
-                                         ${!isNewTask ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-900'}`}}"
+                                        className={`mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl ${!isNewTask ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-900'}`}
                                         disabled={!isNewTask}>
                                     <option value="design">Design</option>
                                     <option value="dev">Sviluppo</option>
@@ -147,7 +146,7 @@ export default function Form({onClose, task, onSave}) {
                 <div className="px-8 py-5 border-t w-full border-gray-100 flex justify-between items-center bg-gray-50">
                     {!isNewTask && (
                         <div className="flex flex-col items-start gap-1">
-                            <button id="btn-del-activity" type="button"
+                            <button id="btn-del-activity" type="button" onClick={() => onDelete(task.id)}
                                     className="text-sm mt-2 font-medium text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-md flex items-center gap-1.5">
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"

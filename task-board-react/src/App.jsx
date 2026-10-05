@@ -54,6 +54,8 @@ function App() {
 
   function deleteTask(id) {
     setTasks(tasks.filter(task => task.id !== id))
+    setModalOpen(false)
+    setSelectedTask(null)
   }
 
   function editTask(updatedTask) {
@@ -153,7 +155,7 @@ function App() {
           </form>
           <List tasks={tasks} onEditTask={handleEditTask}/>
         </div>
-        {isModalOpen && <DetailModal onClose={() => setModalOpen(false)} onSave={handleSaveForm} task={selectedTask} addTask={addTask} />}
+        {isModalOpen && <DetailModal onClose={() => setModalOpen(false)} onSave={handleSaveForm} task={selectedTask} onDelete={deleteTask}/>}
       </div>
   )
 }
