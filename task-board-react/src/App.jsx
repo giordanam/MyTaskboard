@@ -1,51 +1,20 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import List from './components/List.jsx'
 import DetailModal from './components/DetailModal.jsx'
+import {FilterContext} from "./FilterContext.jsx"
 
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      id: "1",
-      title: "Disegnare la nuova landing page",
-      description: "Creare i mockup per la versione mobile e desktop.",
-      category: "design",
-      status: "to-do",
-      user: "giordana",
-      expire: "2026-10-15",
-      checklist: [
-        { id: "c1", text: "Scrivere l'HTML di base", done: true },
-        { id: "c2", text: "Inserire la nuova palette di colori", done: false }
-      ]
-    },
-    {
-      id: "2",
-      title: "Risolvere bug sul carrello",
-      description: "Gli utenti segnalano che lo sconto non si applica al checkout.",
-      category: "bug",
-      status: "in-progress",
-      user: "lucio",
-      expire: "2026-10-05",
-      checklist: []
-    },
-    {
-      id: "3",
-      title: "Pubblicazione app negli store",
-      description: "Caricare i nuovi asset e mandare in revisione.",
-      category: "release",
-      status: "done",
-      user: "matteo",
-      expire: "2026-09-30",
-      checklist: []
-    }
-  ])
-
+  const [tasks, setTasks] = useState([])
   const [isModalOpen, setModalOpen] = useState(false)
   const [selectedTask, setSelectedTask] = useState(null)
   const [isFiltersOpen, setFiltersOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [categoryFilter, setCategoryFilter] = useState("")
-  const [expireFilter, setExpireFilter] = useState("")
-  const [userFilter, setUserFilter] = useState("")
+  const {
+    searchQuery, setSearchQuery,
+    categoryFilter, setCategoryFilter,
+    expireFilter, setExpireFilter,
+    userFilter, setUserFilter,
+    handleClearFilters
+  } = useContext(FilterContext)
   const filteredTasks = tasks.filter((task) => {
     const matchTitle = task.title.toLowerCase().includes(searchQuery.toLowerCase())
     const matchCategory = categoryFilter === "" || task.category === categoryFilter
@@ -94,13 +63,6 @@ function App() {
 
     setModalOpen(false)
     setSelectedTask(null)
-  }
-
-  function handleClearFilters() {
-    setSearchQuery("")
-    setCategoryFilter("")
-    setExpireFilter("")
-    setUserFilter("")
   }
 
   return (
@@ -178,7 +140,7 @@ function App() {
             </div>
           </div>
           }
-          <List tasks={filteredTasks} onEditTask={handleEditTask}/>
+          <List tasks={filteredTasks} hasTasks={tasks.length > 0} onEditTask={handleEditTask}/>
         </div>
         {isModalOpen && <DetailModal onClose={() => setModalOpen(false)} onSave={handleSaveForm} task={selectedTask} onDelete={deleteTask}/>}
       </div>
