@@ -50,8 +50,6 @@ function App() {
     const matchTitle = task.title.toLowerCase().includes(searchQuery.toLowerCase())
     const matchCategory = categoryFilter === "" || task.category === categoryFilter
     const matchUser = userFilter === "" || task.user === userFilter
-    // task.expire e` in formato YYYY-MM-DD: il confronto tra stringhe
-    // corrisponde all'ordine cronologico senza dover creare oggetti Date.
     const today = new Date().toISOString().split('T')[0];
     const matchExpire =
         expireFilter === "" ||
