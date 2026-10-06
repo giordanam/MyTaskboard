@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import {useContext, useEffect, useState} from 'react'
 import List from './components/List.jsx'
 import DetailModal from './components/DetailModal.jsx'
 import {FilterContext} from "./FilterContext.jsx"
@@ -8,6 +8,9 @@ function App() {
   const [isModalOpen, setModalOpen] = useState(false)
   const [selectedTask, setSelectedTask] = useState(null)
   const [isFiltersOpen, setFiltersOpen] = useState(false)
+  const [fetchStatus, setFetchStatus] = useState("idle")
+  const [isError, setIsError] = useState(null)
+  const [startFetch, setStartFetch] = useState(false)
   const {
     searchQuery, setSearchQuery,
     categoryFilter, setCategoryFilter,
@@ -27,6 +30,71 @@ function App() {
 
     return matchTitle && matchUser && matchExpire && matchCategory
   })
+
+  useEffect(() => {
+    //interruttore spento si ferma e non succede nulla
+    if(!startFetch) return;
+
+    const fetchTasksData = async () => {
+      setFetchStatus("loading")
+      setIsError(null)
+
+      try {
+          const response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=10")
+
+        if(!response.ok) {
+          throw new Error("Failed to fetch data")
+        }
+
+        const data = await response.json()
+
+        //stato vuoto
+        if(data.length === 0) {
+          setFetchStatus("empty")
+          return;
+        }
+
+        //caso in cui i dati ci sono devo inserirli nello stato tasks
+        const possibleCategories = ["design", "dev", "release", "bug"]
+        const possibleUsers = ["giordana", "lucio", "matteo", "delin"]
+        const statusNoDone = ["to-do", "in-progress"];
+
+        const newTasks = data.map((task) => {
+          const randomCategory = possibleCategories[Math.floor(Math.random() * possibleCategories.length)]
+          const randomUser = possibleUsers[Math.floor(Math.random() * possibleUsers.length)]
+
+          const expireDate = new Date()
+          expireDate.setDate(expireDate.getDate() + Math.floor(Math.random() * 10))
+          const expireRandom = expireDate.toISOString().split('T')[0]
+          const derivedStatus = task.completed ? "done" : statusNoDone[Math.floor(Math.random() * statusNoDone.length)]
+
+          return {
+            id: crypto.randomUUID(),
+            title: task.title,
+            category: randomCategory,
+            status: derivedStatus,
+            user: randomUser,
+            expire: expireRandom,
+            description: `Descrizione automatica per: "${task.title}". Verificare i requisiti prima di iniziare a lavorare.`,
+            checklist: ["Lettura documentazione", "Esecuzione", "Test finale"].map((text) => ({
+              id: crypto.randomUUID(),
+              text,
+              done: false
+            }))
+          }
+        })
+
+        setTasks(prevTasks => [...prevTasks, ...newTasks])
+        setFetchStatus("success")
+      }catch(error) {
+        setIsError(error.message)
+        setFetchStatus("error")
+      }finally {
+        setStartFetch(false)
+      }
+    }
+    fetchTasksData()
+  }, [startFetch])
 
   function addTask(newTaskData) {
     const newTask = {
@@ -94,7 +162,66 @@ function App() {
             <button id="btn-clean-filters" type="button" onClick={handleClearFilters} className="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 justify-self-end ml-2">
               Pulisci filtri
             </button>
+            <button onClick={() => setStartFetch(true)} disabled={fetchStatus === "loading"} className="ml-5 text-white bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 flex items-center gap-2">Scarica task!</button>
+            {fetchStatus === "loading" && (
+                <div className="flex items-center ml-4 text-indigo-600">
+                  <svg className="animate-spin h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span className="font-medium animate-pulse">Caricamento in corso...</span>
+                </div>
+            )}
           </div>
+
+          {/*fetch or error messages*/}
+          {fetchStatus !== "idle" && fetchStatus !== "loading" && (
+              <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 shadow-2xl rounded-lg overflow-hidden">
+
+                {/* BOTTONE DI CHIUSURA*/}
+                <button
+                    onClick={() => setFetchStatus("idle")}
+                    className="absolute top-2 right-3 text-gray-500 hover:text-gray-900 text-xl font-bold transition-colors"
+                    aria-label="Chiudi"
+                >
+                  ✕
+                </button>
+
+                {/* STATO: ERRORE */}
+                {fetchStatus === "error" && (
+                    <div className="flex items-center p-6 bg-red-100 border-l-8 border-red-600 text-red-800 min-w-[300px]">
+                      <span className="text-2xl mr-4">❌</span>
+                      <div>
+                        <h3 className="font-bold text-lg">Impossibile scaricare</h3>
+                        <p>{isError}</p>
+                      </div>
+                    </div>
+                )}
+
+                {/*STATO: VUOTO */}
+                {fetchStatus === "empty" && (
+                    <div className="flex items-center p-6 bg-yellow-100 border-l-8 border-yellow-500 text-yellow-800 min-w-[300px]">
+                      <span className="text-2xl mr-4">⚠️</span>
+                      <div>
+                        <h3 className="font-bold text-lg">Lista vuota</h3>
+                        <p>Il server non ha restituito nessuna task.</p>
+                      </div>
+                    </div>
+                )}
+
+                {/* STATO: SUCCESSO */}
+                {fetchStatus === "success" && (
+                    <div className="flex items-center p-6 bg-green-100 border-l-8 border-green-600 text-green-800 min-w-[300px]">
+                      <span className="text-2xl mr-4">✅</span>
+                      <div>
+                        <h3 className="font-bold text-lg">Evvai!</h3>
+                        <p>Le nuove task sono state importate.</p>
+                      </div>
+                    </div>
+                )}
+              </div>
+          )}
+
 
           {isFiltersOpen && <div id="form-filters" className="max-w-7xl mx-auto mt-5 items-center grid grid-cols-4 gap-4">
             <span className="mt-5 flex items-center gap-2 font-bold">
