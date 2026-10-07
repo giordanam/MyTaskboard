@@ -20,10 +20,10 @@ export default function DetailModal({onClose, task, onSave, onDelete}) {
                                 <h2 className="text-lg font-bold text-gray-800">Vuoi davvero uscire?</h2>
                                 <p className="text-sm text-gray-500">Le modifiche che hai fatto non verranno salvate</p>
                                 <div className="flex justify-center gap-3 w-full">
-                                    <button id="btn-cancel-err" onClick={() => setShowWarning(false)}
+                                    <button onClick={() => setShowWarning(false)}
                                             className="bg-white hover:bg-gray-100 rounded-xl font-medium border border-gray-700 px-5 py-1 text-gray-700">Annulla
                                     </button>
-                                    <button id="btn-exit-err" onClick={() => {setShowWarning(false); onClose()}}
+                                    <button onClick={() => {setShowWarning(false); onClose()}}
                                             className="bg-red-500 hover:bg-red-600 rounded-xl px-4 py-1 text-white">Esci
                                     </button>
                                 </div>

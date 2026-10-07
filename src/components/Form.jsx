@@ -36,9 +36,9 @@ export default function Form({onClose, task, onSave, onDelete}) {
     }
 
     return(
-        <form id="task-form" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div className="flex flex-col max-h-[90vh]">
-                <button id="btn-close" type="button"
+                <button type="button"
                         className="cursor-pointer bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10" onClick={onClose}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                          stroke="currentColor" className="size-6">
@@ -47,7 +47,7 @@ export default function Form({onClose, task, onSave, onDelete}) {
                 </button>
                 <div className="p-8 flex-1 overflow-y-auto">
                     <div className="mb-8 pr-10">
-                        <input id="task-title" type="text" name="title" placeholder="Titolo" defaultValue={task ? task.title : ''}
+                        <input type="text" name="title" placeholder="Titolo" defaultValue={task ? task.title : ''}
                                className="w-full text-3xl font-bold focus:outline-none" required/>
                     </div>
                     <div className="grid grid-cols-3 gap-8">
@@ -61,12 +61,12 @@ export default function Form({onClose, task, onSave, onDelete}) {
                                     </svg>
                                     Descrizione
                                 </h3>
-                                <textarea name="description" id="task-description" defaultValue={task ? task.description : ''}
+                                <textarea name="description" defaultValue={task ? task.description : ''}
                                           className="w-full p-3 h-32 bg-gray-50 resize-none border rounded-lg focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600"
                                           placeholder="Aggiungi una descrizione..."></textarea>
                             </div>
                             {!isNewTask && (
-                                <div id="checklist-container">
+                                <div>
                                     <h3 className="mb-2 mt-4 text-sm font-bold text-gray-700 flex items-center gap-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              strokeWidth="1.5" stroke="currentColor" className="size-4">
@@ -93,7 +93,7 @@ export default function Form({onClose, task, onSave, onDelete}) {
                                                           d="M12 4.5v15m7.5-7.5h-15"/>
                                                 </svg>
                                             </button>
-                                            <input type="text" id="task-checklist"
+                                            <input type="text"
                                                    value={newItemText}
                                                    onChange={(e) => setNewItemText(e.target.value)}
                                                    onKeyDown={handleNewItemKeyDown}
@@ -158,7 +158,7 @@ export default function Form({onClose, task, onSave, onDelete}) {
                                 <div>
                                     <label htmlFor="task-expire"
                                            className="mt-3 block text-xs font-bold text-gray-500">Scadenza</label>
-                                    <input type="date" name="expire" id="task-expire" defaultValue={task ? task.expire : ''}
+                                    <input type="date" id="task-expire" name="expire" defaultValue={task ? task.expire : ''}
                                            className="w-full bg-white border border-gray-200 text-sm rounded-md px-3 py-2 text-gray-700 focus:ring-2 focus:ring-sky-500 outline-none"
                                            required/>
                                 </div>
@@ -169,7 +169,7 @@ export default function Form({onClose, task, onSave, onDelete}) {
                 <div className="px-8 py-5 border-t w-full border-gray-100 flex justify-between items-center bg-gray-50">
                     {!isNewTask && (
                         <div className="flex flex-col items-start gap-1">
-                            <button id="btn-del-activity" type="button" onClick={() => onDelete(task.id)}
+                            <button type="button" onClick={() => onDelete(task.id)}
                                     className="text-sm mt-2 font-medium text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-md flex items-center gap-1.5">
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -180,8 +180,7 @@ export default function Form({onClose, task, onSave, onDelete}) {
                         </div>
                     )}
                     <div className="flex gap-2">
-                        <button id="btn-save-edit" type="submit"
-                                className="bg-sky-500 hover:bg-sky-600 rounded-xl px-5 py-1 text-gray-700">Salva
+                        <button type="submit" className="bg-sky-500 hover:bg-sky-600 rounded-xl px-5 py-1 text-gray-700">Salva
                         </button>
                     </div>
                 </div>

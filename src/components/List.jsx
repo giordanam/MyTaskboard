@@ -22,7 +22,7 @@ export default function List({tasks, hasTasks, onEditTask}) {
     }
 
     return(
-        <div id="grid-cards" className="grid grid-cols-3 mt-5 gap-6">
+        <div className="grid grid-cols-3 mt-5 gap-6">
             <div className="bg-gray-100 p-4 rounded-lg">
                 <h2 className="font-bold mb-4 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
@@ -30,7 +30,7 @@ export default function List({tasks, hasTasks, onEditTask}) {
                     </svg>
                     Da fare
                 </h2>
-                <div id="col-todo" className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4">
                     {tasks.filter((task) => task.status === 'to-do').map(task => <Card key={task.id} task={task} onEditTask={onEditTask}/>)}
                 </div>
             </div>
@@ -41,7 +41,7 @@ export default function List({tasks, hasTasks, onEditTask}) {
                     </svg>
                     In corso
                 </h2>
-                <div id="col-inprogress" className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4">
                     {tasks.filter((task) => task.status === 'in-progress').map(task => <Card key={task.id} task={task} onEditTask={onEditTask}/>)}
                 </div>
             </div>
@@ -52,7 +52,7 @@ export default function List({tasks, hasTasks, onEditTask}) {
                     </svg>
                     Completato
                 </h2>
-                <div id="col-done" className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4">
                     {tasks.filter((task) => task.status === 'done').map(task => <Card key={task.id} task={task} onEditTask={onEditTask}/>)}
                 </div>
             </div>
