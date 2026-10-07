@@ -4,7 +4,15 @@ import DetailModal from './components/DetailModal.jsx'
 import {FilterContext} from "./FilterContext.jsx"
 
 function App() {
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = localStorage.getItem("tasks");
+
+    if(savedTasks) {
+      return JSON.parse(savedTasks)
+    }
+
+    return []
+  })
   const [isModalOpen, setModalOpen] = useState(false)
   const [selectedTask, setSelectedTask] = useState(null)
   const [isFiltersOpen, setFiltersOpen] = useState(false)
@@ -95,6 +103,10 @@ function App() {
     }
     fetchTasksData()
   }, [startFetch])
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks))
+  }, [tasks])
 
   function addTask(newTaskData) {
     const newTask = {
