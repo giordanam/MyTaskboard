@@ -12,6 +12,7 @@ export default function DetailModal({onClose, task, onSave, onDelete}) {
             </div>
 
             {
+                /*modale warning*/
                 showWarning && (
                     <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
                         <div className="bg-white rounded-xl w-full max-w-sm p-6 border-2 border-red-700">

@@ -1,6 +1,7 @@
 import Card from './Card.jsx'
 
 export default function List({tasks, hasTasks, onEditTask}) {
+    //caso in cui non ci sono task in generale o trovate dai filtri esce il div per comunicarlo all'utente
     if (tasks.length === 0) {
         return (
             <div className="mt-5 flex flex-col items-center justify-center gap-3 text-center bg-white border border-dashed border-gray-300 rounded-lg py-16 px-6">

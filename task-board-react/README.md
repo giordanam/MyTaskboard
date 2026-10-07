@@ -1,16 +1,40 @@
-# React + Vite
+# Task Board (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern task management web application (To-Do List), originally developed in Vanilla JavaScript and completely rewritten using a declarative architecture with React and Tailwind CSS.
 
-Currently, two official plugins are available:
+## 🚀 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Full CRUD Operations:** Create, read, update, and complete tasks.
+- **Dynamic Filtering:** Real-time text search and category filters calculated on the fly (Derived State) without mutating the single source of truth.
+- **Local Persistence:** Automatic saving and loading of tasks using the browser's `localStorage`.
+- **API Integration (Fetch):** Import sample tasks from an external server (JSONPlaceholder) managed via a State Machine pattern (idle, loading, success, error).
+- **Polished UI/UX:** Loading spinners, gracefully handled error messages, and floating Toast notifications.
 
-## React Compiler
+## 🛠️ Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
+2. Clone this repository to your local machine.
+3. Open the terminal in the project folder and install dependencies:
 
-## Expanding the ESLint configuration
+   npm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+4. Start the local development server:
+
+   npm run dev
+
+5. Open your browser at the address shown in the terminal (usually http://localhost:5173).
+
+## Project Structure
+
+/
+├── index.html        # Application HTML entry point
+├── package.json      # npm dependencies and scripts
+├── package-lock.json     # Lockfile for exact dependency versions
+├── vite.config.js        # Vite bundler and plugin configuration
+├── eslint.config.js      # ESLint rules and configuration for code quality
+└── src/
+    ├── main.jsx      # React entry point (Mounting)
+    ├── index.css     # Global styles and Tailwind directives
+    ├── App.jsx       # Main component (State, Logic, Fetching)
+    ├── FilterContext.jsx # Global state management for search and filters (Context API)
+    └── components/   # Isolated and reusable UI components

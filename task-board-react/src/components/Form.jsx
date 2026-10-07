@@ -62,7 +62,7 @@ export default function Form({onClose, task, onSave, onDelete}) {
                                     Descrizione
                                 </h3>
                                 <textarea name="description" id="task-description" defaultValue={task ? task.description : ''}
-                                          className="w-full p-3 h-32 bg-gray-50 resize-none border border-gray-200 rounded-lg focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600"
+                                          className="w-full p-3 h-32 bg-gray-50 resize-none border rounded-lg focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600"
                                           placeholder="Aggiungi una descrizione..."></textarea>
                             </div>
                             {!isNewTask && (
