@@ -2,7 +2,7 @@
 
 A modern task management web application (To-Do List), originally developed in Vanilla JavaScript and completely rewritten using a declarative architecture with React and Tailwind CSS.
 
-## 🚀 Key Features
+## Key Features
 
 - **Full CRUD Operations:** Create, read, update, and complete tasks.
 - **Dynamic Filtering:** Real-time text search and category filters calculated on the fly (Derived State) without mutating the single source of truth.
@@ -10,7 +10,7 @@ A modern task management web application (To-Do List), originally developed in V
 - **API Integration (Fetch):** Import sample tasks from an external server (JSONPlaceholder) managed via a State Machine pattern (idle, loading, success, error).
 - **Polished UI/UX:** Loading spinners, gracefully handled error messages, and floating Toast notifications.
 
-## 🛠️ Getting Started
+## Getting Started
 
 1. Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 2. Clone this repository to your local machine.
