@@ -2,6 +2,7 @@ import {useContext, useEffect, useState} from 'react'
 import List from './components/List.jsx'
 import DetailModal from './components/DetailModal.jsx'
 import {FilterContext} from "./FilterContext.jsx"
+import {CATEGORIES, USERS, EXPIRES, STATUS} from "./constants.js"
 
 function App() {
   const [tasks, setTasks] = useState(() => {
@@ -54,12 +55,9 @@ function App() {
       }
 
       const data = await response.json()
-
-      //caso in cui i dati ci sono devo inserirli nello stato tasks
-      const possibleCategories = ["design", "dev", "release", "bug"]
-      const possibleUsers = ["giordana", "lucio", "matteo", "delin", "federico"]
-      const statusNoDone = ["to-do", "in-progress"];
-
+      const possibleCategories = CATEGORIES.map(category => category.value)
+      const possibleUsers = USERS.map(user => user.value)
+      const statusNoDone = STATUS.filter(state => state.value !== "done").map(state => state.value)
       const newTasks = data.map((task) => {
         const randomCategory = possibleCategories[Math.floor(Math.random() * possibleCategories.length)]
         const randomUser = possibleUsers[Math.floor(Math.random() * possibleUsers.length)]
@@ -266,23 +264,15 @@ function App() {
             <div className="col-span-4 border-y border-sky-600 py-4 grid grid-cols-4 gap-4">
               <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="py-2 bg-white text-gray-900 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                 <option value="">Seleziona etichetta...</option>
-                <option value="design">Design</option>
-                <option value="dev">Sviluppo</option>
-                <option value="release">Release</option>
-                <option value="bug">Bug</option>
+                {CATEGORIES.map(category => <option value={category.value}>{category.label}</option>)}
               </select>
               <select value={expireFilter} onChange={(e) => setExpireFilter(e.target.value)} className="py-2 bg-white text-gray-900 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                 <option value="">Seleziona Scadenza...</option>
-                <option value="expired">Scaduto</option>
-                <option value="not-expired">Non scaduto</option>
+                {EXPIRES.map(expire => <option value={expire.value}>{expire.label}</option>)}
               </select>
               <select value={userFilter} onChange={(e) => setUserFilter(e.target.value)} className="py-2 bg-white text-gray-900 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
                 <option value="">Seleziona utente...</option>
-                <option value="giordana">Giordana Martucci</option>
-                <option value="lucio">Lucio Morelli</option>
-                <option value="matteo">Matteo di Donato</option>
-                <option value="federico">Federico Micello</option>
-                <option value="delin">Delin Squarcella</option>
+                {USERS.map(user => <option value={user.value}>{user.label}</option>)}
               </select>
             </div>
           </div>
