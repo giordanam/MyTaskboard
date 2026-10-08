@@ -17,8 +17,7 @@ function App() {
   const [selectedTask, setSelectedTask] = useState(null)
   const [isFiltersOpen, setFiltersOpen] = useState(false)
   const [fetchStatus, setFetchStatus] = useState("idle")
-  const [isError, setIsError] = useState(null)
-  const [startFetch, setStartFetch] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
   const {
     searchQuery, setSearchQuery,
     categoryFilter, setCategoryFilter,
@@ -39,70 +38,80 @@ function App() {
     return matchTitle && matchUser && matchExpire && matchCategory
   })
 
-  useEffect(() => {
-    //interruttore spento si ferma e non succede nulla
-    if(!startFetch) return;
+  const fetchTasksData = async (signal) => {
+    setFetchStatus("loading")
+    setErrorMessage("")
 
-    const fetchTasksData = async () => {
-      setFetchStatus("loading")
-      setIsError(null)
+    try {
+      const controller = signal instanceof AbortSignal ? signal : undefined
+      const response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=4", {
+        //aggancio del segnale alla fetch
+        signal: controller
+      })
 
-      try {
-          const response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=10")
-
-        if(!response.ok) {
-          throw new Error("Failed to fetch data")
-        }
-
-        const data = await response.json()
-
-        //stato vuoto
-        if(data.length === 0) {
-          setFetchStatus("empty")
-          return;
-        }
-
-        //caso in cui i dati ci sono devo inserirli nello stato tasks
-        const possibleCategories = ["design", "dev", "release", "bug"]
-        const possibleUsers = ["giordana", "lucio", "matteo", "delin"]
-        const statusNoDone = ["to-do", "in-progress"];
-
-        const newTasks = data.map((task) => {
-          const randomCategory = possibleCategories[Math.floor(Math.random() * possibleCategories.length)]
-          const randomUser = possibleUsers[Math.floor(Math.random() * possibleUsers.length)]
-
-          const expireDate = new Date()
-          expireDate.setDate(expireDate.getDate() + Math.floor(Math.random() * 10))
-          const expireRandom = expireDate.toISOString().split('T')[0]
-          const derivedStatus = task.completed ? "done" : statusNoDone[Math.floor(Math.random() * statusNoDone.length)]
-
-          return {
-            id: crypto.randomUUID(),
-            title: task.title,
-            category: randomCategory,
-            status: derivedStatus,
-            user: randomUser,
-            expire: expireRandom,
-            description: `Descrizione automatica per: "${task.title}". Verificare i requisiti prima di iniziare a lavorare.`,
-            checklist: ["Lettura documentazione", "Esecuzione", "Test finale"].map((text) => ({
-              id: crypto.randomUUID(),
-              text,
-              done: false
-            }))
-          }
-        })
-
-        setTasks(prevTasks => [...prevTasks, ...newTasks])
-        setFetchStatus("success")
-      }catch(error) {
-        setIsError(error.message)
-        setFetchStatus("error")
-      }finally {
-        setStartFetch(false)
+      if (!response.ok) {
+        throw new Error("Failed to fetch data")
       }
+
+      const data = await response.json()
+
+      //caso in cui i dati ci sono devo inserirli nello stato tasks
+      const possibleCategories = ["design", "dev", "release", "bug"]
+      const possibleUsers = ["giordana", "lucio", "matteo", "delin", "federico"]
+      const statusNoDone = ["to-do", "in-progress"];
+
+      const newTasks = data.map((task) => {
+        const randomCategory = possibleCategories[Math.floor(Math.random() * possibleCategories.length)]
+        const randomUser = possibleUsers[Math.floor(Math.random() * possibleUsers.length)]
+
+        const expireDate = new Date()
+        expireDate.setDate(expireDate.getDate() + Math.floor(Math.random() * 10))
+        const expireRandom = expireDate.toISOString().split('T')[0]
+        const derivedStatus = task.completed ? "done" : statusNoDone[Math.floor(Math.random() * statusNoDone.length)]
+
+        return {
+          id: crypto.randomUUID(),
+          title: task.title,
+          category: randomCategory,
+          status: derivedStatus,
+          user: randomUser,
+          expire: expireRandom,
+          description: `Descrizione automatica per: "${task.title}". Verificare i requisiti prima di iniziare a lavorare.`,
+          checklist: ["Lettura documentazione", "Esecuzione", "Test finale"].map((text) => ({
+            id: crypto.randomUUID(),
+            text,
+            done: false
+          }))
+        }
+      })
+
+      setTasks(prevTasks => [...prevTasks, ...newTasks])
+      setFetchStatus("success")
+    } catch (error) {
+      if(error.name === "AbortError") {
+        console.log("Fetch annullata da React strict mode")
+        setFetchStatus("idle")
+        return;
+      }
+
+      setErrorMessage(error.message)
+      setFetchStatus("error")
     }
-    fetchTasksData()
-  }, [startFetch])
+  }
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    if(tasks.length === 0) {
+      fetchTasksData(controller.signal)
+    }
+
+    return() => {
+      // Se React (a causa dello StrictMode) decide di distruggere e ricreare
+      // il componente in un millisecondo, tiriamo il freno a mano della vecchia fetch!
+      controller.abort()
+    }
+  }, [])
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks))
@@ -174,14 +183,13 @@ function App() {
             <button type="button" onClick={handleClearFilters} className="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 justify-self-end ml-2">
               Pulisci filtri
             </button>
-            <button onClick={() => setStartFetch(true)} disabled={fetchStatus === "loading"} className="ml-5 text-white bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 flex items-center gap-2">Scarica task!</button>
+            <button onClick={fetchTasksData} disabled={fetchStatus === "loading"} className="ml-5 disabled:opacity-50 disabled:cursor-not-allowed text-white bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 flex items-center gap-2">Scarica task!</button>
             {fetchStatus === "loading" && (
                 <div className="flex items-center ml-4 text-indigo-600">
                   <svg className="animate-spin h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  <span className="font-medium animate-pulse">Caricamento in corso...</span>
                 </div>
             )}
           </div>
@@ -205,7 +213,7 @@ function App() {
                       <span className="text-2xl mr-4">❌</span>
                       <div>
                         <h3 className="font-bold text-lg">Impossibile scaricare</h3>
-                        <p>{isError}</p>
+                        <p>{errorMessage}</p>
                       </div>
                     </div>
                 )}
