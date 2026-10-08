@@ -1,8 +1,8 @@
-import {useContext, useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import List from './components/List.jsx'
 import DetailModal from './components/DetailModal.jsx'
-import {FilterContext} from "./FilterContext.jsx"
-import {CATEGORIES, USERS, EXPIRES, STATUS} from "./constants.js"
+import { useFilters } from './FilterContext.js'
+import {CATEGORIES, USERS, EXPIRES, STATUS} from "./constants.jsx"
 
 function App() {
   const [tasks, setTasks] = useState(() => {
@@ -17,7 +17,10 @@ function App() {
   const [isModalOpen, setModalOpen] = useState(false)
   const [selectedTask, setSelectedTask] = useState(null)
   const [isFiltersOpen, setFiltersOpen] = useState(false)
-  const [fetchStatus, setFetchStatus] = useState("idle")
+  // Se non ci sono task salvate, al primo render partiamo gia` in stato
+  // "loading": evita di dover impostare lo stato in modo sincrono dentro
+  // l'effect (che React considera un anti-pattern: causa un render extra).
+  const [fetchStatus, setFetchStatus] = useState(() => tasks.length === 0 ? "loading" : "idle")
   const [errorMessage, setErrorMessage] = useState("")
   const {
     searchQuery, setSearchQuery,
@@ -25,7 +28,7 @@ function App() {
     expireFilter, setExpireFilter,
     userFilter, setUserFilter,
     handleClearFilters
-  } = useContext(FilterContext)
+  } = useFilters()
   const filteredTasks = tasks.filter((task) => {
     const matchTitle = task.title.toLowerCase().includes(searchQuery.toLowerCase())
     const matchCategory = categoryFilter === "" || task.category === categoryFilter
@@ -40,9 +43,6 @@ function App() {
   })
 
   const fetchTasksData = async (signal) => {
-    setFetchStatus("loading")
-    setErrorMessage("")
-
     try {
       const controller = signal instanceof AbortSignal ? signal : undefined
       const response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=4", {
@@ -84,6 +84,7 @@ function App() {
       })
 
       setTasks(prevTasks => [...prevTasks, ...newTasks])
+      setErrorMessage("")
       setFetchStatus("success")
     } catch (error) {
       if(error.name === "AbortError") {
@@ -101,6 +102,11 @@ function App() {
     const controller = new AbortController()
 
     if(tasks.length === 0) {
+      // fetchTasksData aggiorna lo stato solo dopo un `await` (quindi in modo
+      // asincrono): react-hooks/set-state-in-effect segnala comunque un falso
+      // positivo perché non riesce a tracciare il confine asincrono quando la
+      // funzione è definita fuori dall'effect (bug noto del plugin).
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchTasksData(controller.signal)
     }
 
@@ -109,6 +115,9 @@ function App() {
       // il componente in un millisecondo, tiriamo il freno a mano della vecchia fetch!
       controller.abort()
     }
+    // Effetto da eseguire solo al mount: vogliamo controllare lo stato
+    // iniziale di `tasks`, non rieseguire il fetch ogni volta che cambia.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

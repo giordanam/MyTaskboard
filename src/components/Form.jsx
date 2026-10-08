@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {USERS, CATEGORIES, STATUS} from "../constants.js";
+import {USERS, CATEGORIES, STATUS} from "../constants.jsx";
 
 export default function Form({onClose, task, onSave, onDelete}) {
     const isNewTask = task === null

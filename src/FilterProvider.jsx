@@ -1,8 +1,7 @@
-import { createContext, useState } from 'react'
+import {useState} from 'react'
+import {FilterContext} from './FilterContext.js'
 
-export const FilterContext = createContext(1)
-
-export const FilterProvider = ({ children }) => {
+export function FilterProvider({ children }) {
     const [searchQuery, setSearchQuery] = useState("")
     const [categoryFilter, setCategoryFilter] = useState("")
     const [expireFilter, setExpireFilter] = useState("")
@@ -27,5 +26,3 @@ export const FilterProvider = ({ children }) => {
         </FilterContext.Provider>
     )
 }
-
-

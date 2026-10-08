@@ -1,4 +1,4 @@
-import {USERS, CATEGORIES} from '../constants'
+import {USERS, CATEGORIES} from '../constants.jsx'
 
 export default function Card({task, onEditTask}) {
 
