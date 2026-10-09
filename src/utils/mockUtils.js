@@ -1,4 +1,5 @@
 import { CATEGORIES, USERS, STATUS } from "../constants.jsx";
+import {getLocalDateString} from "./helper.js";
 
 export function formatFetchedTasks(apiData) {
     const possibleCategories = CATEGORIES.map(category => category.value);
@@ -18,7 +19,7 @@ export function formatFetchedTasks(apiData) {
             category: randomCategory,
             status: task.completed ? "done" : statusNoDone[Math.floor(Math.random() * statusNoDone.length)],
             user: randomUser,
-            expire: expireDate.toISOString().split('T')[0],
+            expire: getLocalDateString(expireDate),
             description: `Descrizione automatica per: "${task.title}". Verificare i requisiti.`,
             checklist: ["Lettura documentazione", "Esecuzione", "Test finale"].map((text) => ({
                 id: crypto.randomUUID(),

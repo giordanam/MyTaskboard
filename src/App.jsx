@@ -8,13 +8,13 @@ import {formatFetchedTasks} from "./utils/mockUtils.js";
 
 function App() {
   const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem("tasks");
-
-    if(savedTasks) {
-      return JSON.parse(savedTasks)
+    try {
+      const savedTasks = localStorage.getItem("tasks");
+      return savedTasks ? JSON.parse(savedTasks) : []
+    }catch(error) {
+      console.error("LocalStorage data corrupted.", error)
+      return []
     }
-
-    return []
   })
   const [isModalOpen, setModalOpen] = useState(false)
   const [selectedTask, setSelectedTask] = useState(null)
@@ -84,17 +84,17 @@ function App() {
       id: crypto.randomUUID()
     }
 
-    setTasks([...tasks, newTask])
+    setTasks(prevTasks => [...prevTasks, newTask])
   }
 
   function deleteTask(id) {
-    setTasks(tasks.filter(task => task.id !== id))
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== id))
     setModalOpen(false)
     setSelectedTask(null)
   }
 
   function editTask(updatedTask) {
-    setTasks(tasks.map(task => task.id === updatedTask.id ? updatedTask : task))
+    setTasks(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task))
   }
 
   function handleEditTask(taskToEdit)  {

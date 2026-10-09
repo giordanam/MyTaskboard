@@ -1,7 +1,7 @@
 import Card from './Card.jsx'
 import { STATUS } from '../constants.jsx'
 import { useFilters } from '../FilterContext.js';
-import { getFilteredTasks } from '../utils/FilterUtils.js';
+import { getFilteredTasks } from '../utils/filterUtils.js';
 import {IconPlus, IconSearch} from "./Icons.jsx";
 
 export default function List({tasks, hasTasks, onEditTask}) {

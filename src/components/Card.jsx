@@ -16,7 +16,7 @@ export default function Card({task, onEditTask}) {
             <div className="flex justify-between items-center mt-auto">
                 <div className="flex items-center gap-1">
                     <IconTime classname={"size-6"} />
-                    <span>{task.expire}</span>
+                    <span>{task.expire.split('-').reverse().join('/')}</span>
                 </div>
                 <div
                     className="w-9 h-9 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center">
