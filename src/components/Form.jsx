@@ -1,12 +1,25 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {USERS, CATEGORIES, STATUS} from "../constants.jsx";
 import FormSelect from "./FormSelect.jsx";
 import Checklist from "./Checklist.jsx";
 import {IconCloseForm, IconDelete, IconDescriptionAndColumn, IconManage, IconTime} from "./Icons.jsx";
 
-export default function Form({onClose, task, onSave, onDelete}) {
+export default function Form({ onClose, task, onSave, onDelete }) {
     const isNewTask = task === null
     const [checklist, setChecklist] = useState(task ? task.checklist : [])
+    const [isDirty, setIsDirty] = useState(false)
+
+    //ascolto tasto esc con useEffect
+    useEffect(() => {
+        function handleKeyDown(e) {
+            if (e.key === 'Escape') {
+                // Passiamo isDirty al DetailModal
+                onClose(isDirty);
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isDirty, onClose])
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -17,10 +30,10 @@ export default function Form({onClose, task, onSave, onDelete}) {
     }
 
     return(
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} onChange={() => setIsDirty(true)}>
             <div className="flex flex-col max-h-[90vh]">
                 <button type="button"
-                        className="cursor-pointer bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10" onClick={onClose}>
+                        className="cursor-pointer bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10" onClick={() => onClose(isDirty)}>
                     <IconCloseForm classname={"size-6"}/>
                 </button>
                 <div className="p-8 flex-1 overflow-y-auto">

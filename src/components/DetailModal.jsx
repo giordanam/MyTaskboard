@@ -7,7 +7,7 @@ export default function DetailModal({onClose, task, onSave, onDelete}) {
         <>
             <div className="fixed inset-0 bg-black/60 z-40 flex items-center justify-center p-4">
                 <div className="relative bg-white rounded-xl w-full max-w-2xl p-0 overflow-hidden max-h-[90vh]">
-                    <Form onClose={() => setShowWarning(true)} task={task} onSave={onSave} onDelete={onDelete}/>
+                    <Form onClose={(isDirty) => isDirty ? setShowWarning(true) : onClose()} task={task} onSave={onSave} onDelete={onDelete}/>
                 </div>
             </div>
 
