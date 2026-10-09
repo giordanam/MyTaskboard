@@ -1,9 +1,13 @@
 import Card from './Card.jsx'
-import {STATUS} from '../constants.jsx'
+import { STATUS } from '../constants.jsx'
+import { useFilters } from '../FilterContext.js';
+import { getFilteredTasks } from '../utils/FilterUtils.js';
 
 export default function List({tasks, hasTasks, onEditTask}) {
+    const filters = useFilters();
+    const filteredTasks = getFilteredTasks(tasks, filters);
     //caso in cui non ci sono task in generale o trovate dai filtri esce il div per comunicarlo all'utente
-    if (tasks.length === 0) {
+    if (filteredTasks.length === 0) {
         return (
             <div className="mt-5 flex flex-col items-center justify-center gap-3 text-center bg-white border border-dashed border-gray-300 rounded-lg py-16 px-6">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-10 text-sky-500">
@@ -31,7 +35,7 @@ export default function List({tasks, hasTasks, onEditTask}) {
                         {state.label}
                     </h2>
                     <div className="flex flex-col gap-4">
-                        {tasks.filter((task) => task.status === state.value).map(task => <Card key={task.id} task={task} onEditTask={onEditTask}/>)}
+                        {filteredTasks.filter((task) => task.status === state.value).map(task => <Card key={task.id} task={task} onEditTask={onEditTask}/>)}
                     </div>
                 </div>
             )}

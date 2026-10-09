@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import List from './components/List.jsx'
 import DetailModal from './components/DetailModal.jsx'
-import { useFilters } from "./FilterContext.js";
-import { getFilteredTasks} from "./utils/FilterUtils.js";
 import Header from "./components/Header.jsx";
 import FetchStatusToast from "./components/FetchStatusToast.jsx";
 import FilterBar from "./components/FilterBar.jsx";
@@ -25,8 +23,6 @@ function App() {
   // l'effect (che React considera un anti-pattern: causa un render extra).
   const [fetchStatus, setFetchStatus] = useState(() => tasks.length === 0 ? "loading" : "idle")
   const [errorMessage, setErrorMessage] = useState("")
-  const filters = useFilters()
-  const filteredTasks = getFilteredTasks(tasks, filters)
   const fetchTasksData = async (signal) => {
     try {
       const controller = signal instanceof AbortSignal ? signal : undefined
@@ -125,7 +121,7 @@ function App() {
           <Header onNewTask={() => {setModalOpen(true); setSelectedTask(null);}} />
           <FilterBar onFetch={() => fetchTasksData(new AbortController().signal)} fetchStatus={fetchStatus} />
           <FetchStatusToast fetchStatus={fetchStatus} setFetchStatus={setFetchStatus} errorMessage={errorMessage} />
-          <List tasks={filteredTasks} hasTasks={tasks.length > 0} onEditTask={handleEditTask}/>
+          <List tasks={tasks} hasTasks={tasks.length > 0} onEditTask={handleEditTask}/>
         </div>
         {isModalOpen && <DetailModal onClose={() => setModalOpen(false)} onSave={handleSaveForm} task={selectedTask} onDelete={deleteTask}/>}
       </div>
