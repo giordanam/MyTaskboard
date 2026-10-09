@@ -47,9 +47,9 @@ export default function Form({onClose, task, onSave, onDelete}) {
                     </svg>
                 </button>
                 <div className="p-8 flex-1 overflow-y-auto">
-                    <div className="mb-8 pr-10">
+                    <div className="mb-8 pr-24">
                         <input type="text" name="title" placeholder="Titolo" defaultValue={task ? task.title : ''}
-                               className="w-full text-3xl font-bold focus:outline-none" required/>
+                               className="w-full text-3xl font-bold rounded-xl focus-visible:outline-none focus-visible:border-sky-600 focus:ring-1 focus-visible:ring-sky-600" required/>
                     </div>
                     <div className="grid grid-cols-3 gap-8">
                         <div className="col-span-2 flex flex-col">
@@ -120,7 +120,7 @@ export default function Form({onClose, task, onSave, onDelete}) {
                                 <select id="task-category" name={isNewTask ? "category" : ''} defaultValue={task ? task.category : "design"}
                                         className={`mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl ${!isNewTask ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-900'}`}
                                         disabled={!isNewTask}>
-                                    {CATEGORIES.map(category => <option value={category.value}>{category.label}</option>)}
+                                    {CATEGORIES.map(category => <option key={category.value} value={category.value}>{category.label}</option>)}
                                 </select>
                                 {!isNewTask && (
                                     <input type="hidden" name="category" value={task.category} />
@@ -129,13 +129,13 @@ export default function Form({onClose, task, onSave, onDelete}) {
                                        className="mt-3 block text-xs font-bold text-gray-500">Stato</label>
                                 <select id="task-status" name="status" defaultValue={task ? task.status : "to-do"}
                                         className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
-                                    {STATUS.map(state => <option value={state.value}>{state.label}</option>)}
+                                    {STATUS.map(state => <option key={state.value} value={state.value}>{state.label}</option>)}
                                 </select>
                                 <label htmlFor="task-user" className="mt-3 block text-xs font-bold text-gray-500">Assegnato
                                     a</label>
                                 <select id="task-user" name="user" defaultValue={task ? task.user : "giordana"}
                                         className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
-                                    {USERS.map(user => <option value={user.value}>{user.label}</option>)}
+                                    {USERS.map(user => <option key={user.value} value={user.value}>{user.label}</option>)}
                                 </select>
                             </div>
                             <div>
@@ -172,7 +172,7 @@ export default function Form({onClose, task, onSave, onDelete}) {
                         </div>
                     )}
                     <div className="flex gap-2">
-                        <button type="submit" className="bg-sky-500 hover:bg-sky-600 rounded-xl px-5 py-1 text-gray-700">Salva
+                        <button type="submit" className="bg-sky-500 hover:bg-sky-600 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl px-5 py-1 text-gray-700">Salva
                         </button>
                     </div>
                 </div>

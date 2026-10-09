@@ -25,7 +25,7 @@ export default function List({tasks, hasTasks, onEditTask}) {
     return(
         <div className="grid grid-cols-3 mt-5 gap-6">
             {STATUS.map(state =>
-                <div className="bg-gray-100 p-4 rounded-lg">
+                <div key={state.value} className="bg-gray-100 p-4 rounded-lg">
                     <h2 className="font-bold mb-4 flex items-center gap-2">
                         {state.icon}
                         {state.label}
