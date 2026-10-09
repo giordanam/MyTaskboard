@@ -1,121 +1,153 @@
-import {useEffect, useState} from 'react'
-import {USERS, CATEGORIES, STATUS} from "../constants.jsx";
-import FormSelect from "./FormSelect.jsx";
-import Checklist from "./Checklist.jsx";
-import {IconCloseForm, IconDelete, IconDescriptionAndColumn, IconManage, IconTime} from "./Icons.jsx";
+import { useEffect, useState } from 'react';
+import { USERS, CATEGORIES, STATUS } from '../constants.jsx';
+import FormSelect from './FormSelect.jsx';
+import Checklist from './Checklist.jsx';
+import {
+  IconCloseForm,
+  IconDelete,
+  IconDescriptionAndColumn,
+  IconManage,
+  IconTime,
+} from './Icons.jsx';
 
 export default function Form({ onClose, task, onSave, onDelete }) {
-    const isNewTask = task === null
-    const [checklist, setChecklist] = useState(task ? task.checklist : [])
-    const [isDirty, setIsDirty] = useState(false)
+  const isNewTask = task === null;
+  const [checklist, setChecklist] = useState(task ? task.checklist : []);
+  const [isDirty, setIsDirty] = useState(false);
 
-    //ascolto tasto esc con useEffect
-    useEffect(() => {
-        function handleKeyDown(e) {
-            if (e.key === 'Escape') {
-                // Passiamo isDirty al DetailModal
-                onClose(isDirty);
-            }
-        }
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isDirty, onClose])
-
-    function handleSubmit(e) {
-        e.preventDefault()
-        const formData = new FormData(e.target)
-        const taskData = Object.fromEntries(formData.entries())
-        taskData.checklist = isNewTask ? [] : checklist
-        onSave(taskData)
+  //ascolto tasto esc con useEffect
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') {
+        // Passiamo isDirty al DetailModal
+        onClose(isDirty);
+      }
     }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isDirty, onClose]);
 
-    return(
-        <form onSubmit={handleSubmit} onChange={() => setIsDirty(true)}>
-            <div className="flex flex-col max-h-[90vh]">
-                <button type="button"
-                        className="cursor-pointer bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10" onClick={() => onClose(isDirty)}>
-                    <IconCloseForm classname={"size-6"}/>
-                </button>
-                <div className="p-8 flex-1 overflow-y-auto">
-                    <div className="mb-8 pr-24">
-                        <input type="text" name="title" placeholder="Titolo" defaultValue={task ? task.title : ''}
-                               className="w-full text-3xl font-bold rounded-xl focus-visible:outline-none focus-visible:border-sky-600 focus:ring-1 focus-visible:ring-sky-600" required/>
-                    </div>
-                    <div className="grid grid-cols-3 gap-8">
-                        <div className="col-span-2 flex flex-col">
-                            <div>
-                                <h3 className="mb-2 text-sm font-bold text-gray-700 flex items-center gap-2">
-                                    <IconDescriptionAndColumn classname={"size-4"}/>
-                                    Descrizione
-                                </h3>
-                                <textarea name="description" defaultValue={task ? task.description : ''}
-                                          className="w-full p-3 h-32 bg-gray-50 resize-none border rounded-lg focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600"
-                                          placeholder="Aggiungi una descrizione..."></textarea>
-                            </div>
-                            {!isNewTask && (
-                                <Checklist checklist={checklist} setChecklist={setChecklist} />
-                            )}
-                        </div>
-                        <div className="col col-span-1 flex flex-col">
-                            <div>
-                                <h3 className="mb-2 text-sm font-bold text-gray-700 flex items-center gap-2">
-                                    <IconManage classname={"size-5"}/>
-                                    Gestione
-                                </h3>
-                                <FormSelect
-                                    label="Categoria"
-                                    name="category"
-                                    defaultValue={task ? task.category : "design"}
-                                    options={CATEGORIES}
-                                    disabled={!isNewTask}
-                                />
+  function handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const taskData = Object.fromEntries(formData.entries());
+    taskData.checklist = isNewTask ? [] : checklist;
+    onSave(taskData);
+  }
 
-                                <FormSelect
-                                    label="Stato"
-                                    name="status"
-                                    defaultValue={task ? task.status : "to-do"}
-                                    options={STATUS}
-                                />
-
-                                <FormSelect
-                                    label="Assegnato a"
-                                    name="user"
-                                    defaultValue={task ? task.user : "giordana"}
-                                    options={USERS}
-                                />
-                            </div>
-                            <div>
-                                <h3 className="mb-2 mt-4 text-sm font-bold text-gray-700 flex items-center gap-2">
-                                    <IconTime classname={"size-5"}/>
-                                    Timeline
-                                </h3>
-                                <div>
-                                    <label htmlFor="task-expire"
-                                           className="mt-3 block text-xs font-bold text-gray-500">Scadenza</label>
-                                    <input type="date" id="task-expire" name="expire" defaultValue={task ? task.expire : ''}
-                                           className="w-full bg-white border border-gray-200 text-sm rounded-md px-3 py-2 text-gray-700 focus:ring-2 focus:ring-sky-500 outline-none"
-                                           required/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="px-8 py-5 border-t w-full border-gray-100 flex justify-between items-center bg-gray-50">
-                    {!isNewTask && (
-                        <div className="flex flex-col items-start gap-1">
-                            <button type="button" onClick={() => onDelete(task.id)}
-                                    className="text-sm mt-2 font-medium text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-md flex items-center gap-1.5">
-                               <IconDelete classname={"size-4"}/>
-                                Elimina Attività
-                            </button>
-                        </div>
-                    )}
-                    <div className="flex gap-2">
-                        <button type="submit" className="bg-sky-500 hover:bg-sky-600 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl px-5 py-1 text-gray-700">Salva
-                        </button>
-                    </div>
-                </div>
+  return (
+    <form onSubmit={handleSubmit} onChange={() => setIsDirty(true)}>
+      <div className="flex flex-col max-h-[90vh]">
+        <button
+          type="button"
+          className="cursor-pointer bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10"
+          onClick={() => onClose(isDirty)}
+        >
+          <IconCloseForm classname={'size-6'} />
+        </button>
+        <div className="p-8 flex-1 overflow-y-auto">
+          <div className="mb-8 pr-24">
+            <input
+              type="text"
+              name="title"
+              placeholder="Titolo"
+              defaultValue={task ? task.title : ''}
+              className="w-full text-3xl font-bold rounded-xl focus-visible:outline-none focus-visible:border-sky-600 focus:ring-1 focus-visible:ring-sky-600"
+              required
+            />
+          </div>
+          <div className="grid grid-cols-3 gap-8">
+            <div className="col-span-2 flex flex-col">
+              <div>
+                <h3 className="mb-2 text-sm font-bold text-gray-700 flex items-center gap-2">
+                  <IconDescriptionAndColumn classname={'size-4'} />
+                  Descrizione
+                </h3>
+                <textarea
+                  name="description"
+                  defaultValue={task ? task.description : ''}
+                  className="w-full p-3 h-32 bg-gray-50 resize-none border rounded-lg focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600"
+                  placeholder="Aggiungi una descrizione..."
+                ></textarea>
+              </div>
+              {!isNewTask && <Checklist checklist={checklist} setChecklist={setChecklist} />}
             </div>
-        </form>
-    )
+            <div className="col col-span-1 flex flex-col">
+              <div>
+                <h3 className="mb-2 text-sm font-bold text-gray-700 flex items-center gap-2">
+                  <IconManage classname={'size-5'} />
+                  Gestione
+                </h3>
+                <FormSelect
+                  label="Categoria"
+                  name="category"
+                  defaultValue={task ? task.category : 'design'}
+                  options={CATEGORIES}
+                  disabled={!isNewTask}
+                />
+
+                <FormSelect
+                  label="Stato"
+                  name="status"
+                  defaultValue={task ? task.status : 'to-do'}
+                  options={STATUS}
+                />
+
+                <FormSelect
+                  label="Assegnato a"
+                  name="user"
+                  defaultValue={task ? task.user : 'giordana'}
+                  options={USERS}
+                />
+              </div>
+              <div>
+                <h3 className="mb-2 mt-4 text-sm font-bold text-gray-700 flex items-center gap-2">
+                  <IconTime classname={'size-5'} />
+                  Timeline
+                </h3>
+                <div>
+                  <label
+                    htmlFor="task-expire"
+                    className="mt-3 block text-xs font-bold text-gray-500"
+                  >
+                    Scadenza
+                  </label>
+                  <input
+                    type="date"
+                    id="task-expire"
+                    name="expire"
+                    defaultValue={task ? task.expire : ''}
+                    className="w-full bg-white border border-gray-200 text-sm rounded-md px-3 py-2 text-gray-700 focus:ring-2 focus:ring-sky-500 outline-none"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="px-8 py-5 border-t w-full border-gray-100 flex justify-between items-center bg-gray-50">
+          {!isNewTask && (
+            <div className="flex flex-col items-start gap-1">
+              <button
+                type="button"
+                onClick={() => onDelete(task.id)}
+                className="text-sm mt-2 font-medium text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-md flex items-center gap-1.5"
+              >
+                <IconDelete classname={'size-4'} />
+                Elimina Attività
+              </button>
+            </div>
+          )}
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              className="bg-sky-500 hover:bg-sky-600 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl px-5 py-1 text-gray-700"
+            >
+              Salva
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
 }
