@@ -31,7 +31,7 @@ export default function List({tasks, hasTasks, onEditTask}) {
                         {state.label}
                     </h2>
                     <div className="flex flex-col gap-4">
-                        {tasks.filter((task) => task.status === state.label).map(task => <Card key={task.id} task={task} onEditTask={onEditTask}/>)}
+                        {tasks.filter((task) => task.status === state.value).map(task => <Card key={task.id} task={task} onEditTask={onEditTask}/>)}
                     </div>
                 </div>
             )}

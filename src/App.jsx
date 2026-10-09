@@ -45,7 +45,7 @@ function App() {
   const fetchTasksData = async (signal) => {
     try {
       const controller = signal instanceof AbortSignal ? signal : undefined
-      const response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=4", {
+      const response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=2", {
         //aggancio del segnale alla fetch
         signal: controller
       })
