@@ -1,35 +1,14 @@
 import {useState} from 'react'
 import {USERS, CATEGORIES, STATUS} from "../constants.jsx";
+import FormSelect from "./FormSelect.jsx";
+import Checklist from "./Checklist.jsx";
 
 export default function Form({onClose, task, onSave, onDelete}) {
     const isNewTask = task === null
     const [checklist, setChecklist] = useState(task ? task.checklist : [])
-    const [newItemText, setNewItemText] = useState('')
-
-    function toggleChecklistItem(itemId) {
-        setChecklist(checklist.map(item =>
-            item.id === itemId ? {...item, done: !item.done} : item
-        ))
-    }
-
-    function addChecklistItem() {
-        const text = newItemText.trim()
-        if (!text) return
-
-        setChecklist([...checklist, {id: crypto.randomUUID(), text, done: false}])
-        setNewItemText('')
-    }
-
-    function handleNewItemKeyDown(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault()
-            addChecklistItem()
-        }
-    }
 
     function handleSubmit(e) {
         e.preventDefault()
-
         const formData = new FormData(e.target)
         const taskData = Object.fromEntries(formData.entries())
         taskData.checklist = isNewTask ? [] : checklist
@@ -67,42 +46,7 @@ export default function Form({onClose, task, onSave, onDelete}) {
                                           placeholder="Aggiungi una descrizione..."></textarea>
                             </div>
                             {!isNewTask && (
-                                <div>
-                                    <h3 className="mb-2 mt-4 text-sm font-bold text-gray-700 flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             strokeWidth="1.5" stroke="currentColor" className="size-4">
-                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                  d="m4.5 12.75 6 6 9-13.5"/>
-                                        </svg>
-                                        Checklist
-                                    </h3>
-                                    <div className="space-y-2 mb-3">
-                                        {checklist.map(item => (
-                                            <label key={item.id} className="flex items-center gap-3 p-2">
-                                                <input type="checkbox" checked={item.done}
-                                                       onChange={() => toggleChecklistItem(item.id)}
-                                                       className="w-4 h-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"/>
-                                                <span className="text-sm text-gray-700"> {item.text}</span>
-                                            </label>
-                                        ))}
-                                        <div className="flex items-center gap-3 p-2 mt-1">
-                                            <button type="button" onClick={addChecklistItem}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     strokeWidth="1.5" stroke="currentColor"
-                                                     className="size-4 text-gray-400">
-                                                    <path strokeLinecap="round" strokeLinejoin="round"
-                                                          d="M12 4.5v15m7.5-7.5h-15"/>
-                                                </svg>
-                                            </button>
-                                            <input type="text"
-                                                   value={newItemText}
-                                                   onChange={(e) => setNewItemText(e.target.value)}
-                                                   onKeyDown={handleNewItemKeyDown}
-                                                   placeholder="Aggiungi elemento..."
-                                                   className="w-full text-sm bg-transparent border-b focus:border-sky-500 focus:outline-none text-gray-700 pb-1"/>
-                                        </div>
-                                    </div>
-                                </div>
+                                <Checklist checklist={checklist} setChecklist={setChecklist} />
                             )}
                         </div>
                         <div className="col col-span-1 flex flex-col">
@@ -115,28 +59,27 @@ export default function Form({onClose, task, onSave, onDelete}) {
                                     </svg>
                                     Gestione
                                 </h3>
-                                <label htmlFor="task-category"
-                                       className="mt-3 block text-xs font-bold text-gray-500">Categoria</label>
-                                <select id="task-category" name={isNewTask ? "category" : ''} defaultValue={task ? task.category : "design"}
-                                        className={`mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl ${!isNewTask ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-900'}`}
-                                        disabled={!isNewTask}>
-                                    {CATEGORIES.map(category => <option key={category.value} value={category.value}>{category.label}</option>)}
-                                </select>
-                                {!isNewTask && (
-                                    <input type="hidden" name="category" value={task.category} />
-                                )}
-                                <label htmlFor="task-status"
-                                       className="mt-3 block text-xs font-bold text-gray-500">Stato</label>
-                                <select id="task-status" name="status" defaultValue={task ? task.status : "to-do"}
-                                        className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
-                                    {STATUS.map(state => <option key={state.value} value={state.value}>{state.label}</option>)}
-                                </select>
-                                <label htmlFor="task-user" className="mt-3 block text-xs font-bold text-gray-500">Assegnato
-                                    a</label>
-                                <select id="task-user" name="user" defaultValue={task ? task.user : "giordana"}
-                                        className="mt-1 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl">
-                                    {USERS.map(user => <option key={user.value} value={user.value}>{user.label}</option>)}
-                                </select>
+                                <FormSelect
+                                    label="Categoria"
+                                    name="category"
+                                    defaultValue={task ? task.category : "design"}
+                                    options={CATEGORIES}
+                                    disabled={!isNewTask}
+                                />
+
+                                <FormSelect
+                                    label="Stato"
+                                    name="status"
+                                    defaultValue={task ? task.status : "to-do"}
+                                    options={STATUS}
+                                />
+
+                                <FormSelect
+                                    label="Assegnato a"
+                                    name="user"
+                                    defaultValue={task ? task.user : "giordana"}
+                                    options={USERS}
+                                />
                             </div>
                             <div>
                                 <h3 className="mb-2 mt-4 text-sm font-bold text-gray-700 flex items-center gap-2">
