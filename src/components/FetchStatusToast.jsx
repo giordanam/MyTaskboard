@@ -11,7 +11,7 @@ export default function FetchStatusToast({ fetchStatus, setFetchStatus, errorMes
         setVisible(false);
       }, 3500);
 
-      // 3. Diamo il tempo all'animazione di finire (500ms) prima di resettare lo stato a 'idle'
+      // Diamo il tempo all'animazione di finire (500ms) prima di resettare lo stato a 'idle'
       const destroyTimer = setTimeout(() => {
         setFetchStatus('idle');
       }, 4000);
