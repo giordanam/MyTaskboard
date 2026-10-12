@@ -43,7 +43,7 @@ export default function Form({ onClose, task, onSave, onDelete }) {
           className="cursor-pointer bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10"
           onClick={() => onClose(isDirty)}
         >
-          <IconCloseForm classname={'size-6'} />
+          <IconCloseForm className={'size-6'} />
         </button>
         <div className="p-8 flex-1 overflow-y-auto">
           <div className="mb-8 pr-24">
@@ -60,7 +60,7 @@ export default function Form({ onClose, task, onSave, onDelete }) {
             <div className="col-span-2 flex flex-col">
               <div>
                 <h3 className="mb-2 text-sm font-bold text-gray-700 flex items-center gap-2">
-                  <IconDescriptionAndColumn classname={'size-4'} />
+                  <IconDescriptionAndColumn className={'size-4'} />
                   Descrizione
                 </h3>
                 <textarea
@@ -75,7 +75,7 @@ export default function Form({ onClose, task, onSave, onDelete }) {
             <div className="col col-span-1 flex flex-col">
               <div>
                 <h3 className="mb-2 text-sm font-bold text-gray-700 flex items-center gap-2">
-                  <IconManage classname={'size-5'} />
+                  <IconManage className={'size-5'} />
                   Gestione
                 </h3>
                 <FormSelect
@@ -102,7 +102,7 @@ export default function Form({ onClose, task, onSave, onDelete }) {
               </div>
               <div>
                 <h3 className="mb-2 mt-4 text-sm font-bold text-gray-700 flex items-center gap-2">
-                  <IconTime classname={'size-5'} />
+                  <IconTime className={'size-5'} />
                   Timeline
                 </h3>
                 <div>
@@ -133,7 +133,7 @@ export default function Form({ onClose, task, onSave, onDelete }) {
                 onClick={() => onDelete(task.id)}
                 className="text-sm mt-2 font-medium text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-md flex items-center gap-1.5"
               >
-                <IconDelete classname={'size-4'} />
+                <IconDelete className={'size-4'} />
                 Elimina Attività
               </button>
             </div>

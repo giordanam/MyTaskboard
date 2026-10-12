@@ -8,7 +8,7 @@ export default function Header({ onNewTask }) {
         className="cursor-pointer bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2"
         onClick={onNewTask}
       >
-        <IconPlus classname={'size-5'} />
+        <IconPlus className={'size-5'} />
         Nuova attività
       </button>
     </header>

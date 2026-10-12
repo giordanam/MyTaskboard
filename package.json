@@ -1,5 +1,5 @@
 {
-  "name": "task-board-react",
+  "name": "my-taskboard",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "format": "prettier --write \"src/**/*.{js,jsx,css}\"",
+    "format": "\"prettier --write .",
     "preview": "vite preview"
   },
   "dependencies": {

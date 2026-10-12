@@ -4,7 +4,7 @@ Il refactor funziona e i concetti base di React sono applicati bene: stato deriv
 
 I task qui sotto servono a portare il progetto da "funziona" a "è finito". Sono in ordine: falli in sequenza, **un commit per task** (stessi messaggi convenzionali che usi già).
 
-Regola generale prima di ogni consegna: rileggi il diff e chiediti, per ogni file e ogni attributo, *"serve ancora?"*.
+Regola generale prima di ogni consegna: rileggi il diff e chiediti, per ogni file e ogni attributo, _"serve ancora?"_.
 
 ---
 
@@ -13,6 +13,7 @@ Regola generale prima di ogni consegna: rileggi il diff e chiediti, per ogni fil
 **Contesto:** la cartella separata `task-board-react/` era prevista dal setup della Fase 1B. Ora che il refactor è concluso, però, nel repo convivono due versioni dell'app (`lista.html` + `better_app.js` nella root e `task-board-react/`) e chi apre il repo non sa quale sia quella vera. La versione vanilla è già salvata nella storia di git, quindi non serve tenerla come file.
 
 **Da fare:**
+
 - Sposta il contenuto di `task-board-react/` nella root del repo (usa `git mv` così la storia dei file si conserva).
 - Elimina `lista.html` e `better_app.js`.
 - Unisci i due `.gitignore`.
@@ -24,6 +25,7 @@ Regola generale prima di ogni consegna: rileggi il diff e chiediti, per ogni fil
 **Problema:** sono rimasti file del template che l'app non usa.
 
 **Da fare:**
+
 - Elimina `src/App.css` (non è importato da nessuna parte; non va commentato, va cancellato).
 - Elimina gli asset non usati: `src/assets/hero.png`, `src/assets/react.svg`, `src/assets/vite.svg`, `public/icons.svg`.
 - Riscrivi `README.md`: cos'è il progetto, come si avvia, struttura delle cartelle.
@@ -36,6 +38,7 @@ Regola generale prima di ogni consegna: rileggi il diff e chiediti, per ogni fil
 **Problema:** nella versione vanilla `id`, classi `js-*` e `data-id` servivano per trovare gli elementi con `getElementById`/`closest`. In React non li cerchi più nel DOM, quindi sono rumore.
 
 **Da fare:**
+
 - Rimuovi gli `id` che non servono (`btn-new-act`, `btn-filters`, `col-todo`, `grid-cards`, `btn-save-edit`, `btn-cancel-err`, …).
 - Rimuovi `task-card`, `js-card-title`, `js-card-expire`, `js-card-user` e `data-id` da `Card.jsx`.
 - **Attenzione:** gli `id` collegati a un `<label htmlFor="...">` nel form servono per l'accessibilità: quelli restano.
@@ -49,6 +52,7 @@ Regola generale prima di ogni consegna: rileggi il diff e chiediti, per ogni fil
 **Da leggere:** https://react.dev/learn/you-might-not-need-an-effect
 
 **Da fare:**
+
 - Fetch al click: elimina lo stato `startFetch` e l'effetto, e chiama la funzione async direttamente dall'`onClick`. Una fetch che nasce da un click è un **evento**, non un effetto.
 - Rinomina `isError` (contiene un messaggio, non un booleano), per esempio `errorMessage`.
 - Bonus, per usare `useEffect` nel caso giusto: se la board è vuota all'avvio, importa automaticamente i task di esempio al mount. Gestisci la cleanup con `AbortController` e verifica cosa succede in sviluppo con `StrictMode`.
@@ -60,6 +64,7 @@ Regola generale prima di ogni consegna: rileggi il diff e chiediti, per ogni fil
 **Problema:** la lista degli utenti è scritta a mano in 4 punti (filtri in `App.jsx`, `Form.jsx`, `Card.jsx`, utenti casuali della fetch) con ordini diversi, e nella fetch manca `federico`. Lo stesso vale per le categorie. Nella versione vanilla avevi già i dizionari centralizzati (`userLabels`, `categoryLabels`, `stateLabels`): riprendi quell'idea.
 
 **Da fare:**
+
 - Crea un modulo (es. `src/constants.js`) con utenti (valore, nome completo, iniziali), categorie e stati.
 - Genera le `<option>` di filtri e form con un `map` su queste costanti.
 - `Card.jsx` e la fetch devono leggere dallo stesso modulo. Nota che oggi i dizionari in `Card` vengono ricreati a ogni render.
@@ -71,6 +76,7 @@ Regola generale prima di ogni consegna: rileggi il diff e chiediti, per ogni fil
 **Problema:** `npm run lint` dà un errore (`react-refresh/only-export-components`) perché il file esporta sia il Context sia un componente. Inoltre `createContext(1)` usa un valore di default che non ha senso.
 
 **Da fare:**
+
 - Separa il Context dal Provider, oppure esponi un custom hook `useFilters()` e smetti di esportare il Context.
 - Usa un default sensato (`null`) e fai lanciare un errore al hook se viene usato fuori dal Provider.
 
@@ -81,6 +87,7 @@ Regola generale prima di ogni consegna: rileggi il diff e chiediti, per ogni fil
 **Problema:** `App.jsx` ha quasi 300 righe e fa tutto: header, barra di ricerca, filtri, toast della fetch e logica dei task.
 
 **Da fare:**
+
 - Estrai almeno `Header`, `FilterBar` e `FetchStatusToast` in `src/components/`.
 - In `List.jsx` le tre colonne sono copiate e incollate: generale con un `map` su un array di configurazione (stato, titolo, icona).
 
@@ -98,6 +105,7 @@ Regola generale prima di ogni consegna: rileggi il diff e chiediti, per ogni fil
 **Problema:** l'indentazione (2 o 4 spazi), le virgolette (`'` e `"`) e i punti e virgola cambiano da un file all'altro.
 
 **Da fare:**
+
 - Configura Prettier, aggiungi uno script `npm run format` e formatta tutto il progetto **in un commit separato** (così il diff dei cambi reali resta leggibile).
 
 **Fatto quando:** `npm run lint` restituisce 0 errori e 0 warning.
@@ -120,6 +128,7 @@ Ottimo lavoro: Context separato con `useFilters()`, `App.jsx` snello, costanti c
 **Problema:** dopo il task 4 nessuno imposta più `setFetchStatus('loading')` quando si clicca il bottone. Lo stato `loading` arriva solo dall'inizializzatore lazy al primo render. Prova: clicca "Scarica task!" e osserva che lo spinner non compare e che il bottone non si disabilita (lo stile `disabled:` del task 8 non si vede mai). Puoi anche cliccare due volte di fila.
 
 **Da fare:**
+
 - Crea un handler per il click che porti lo stato in `loading` e poi lanci la fetch.
 - Semplifica la firma di `fetchTasksData`: il `signal` è un parametro **opzionale**. Oggi `new AbortController().signal` crea un controller che nessuno potrà mai annullare, la variabile `controller` contiene in realtà un signal e il controllo `instanceof` non serve.
 
@@ -130,6 +139,7 @@ Ottimo lavoro: Context separato con `useFilters()`, `App.jsx` snello, costanti c
 **Problema:** in sviluppo, con la board vuota, la prima fetch viene annullata e la catch fa `setFetchStatus('idle')`. Però nel frattempo la seconda fetch, quella "vera", è già partita: lo spinner sparisce mentre il caricamento è ancora in corso.
 
 **Da fare:**
+
 - Ricostruisci passo per passo cosa succede con StrictMode: mount, cleanup, mount, e quando arriva ciascuna risposta o eccezione.
 - Su `AbortError` non toccare lo stato.
 
@@ -138,6 +148,7 @@ Ottimo lavoro: Context separato con `useFilters()`, `App.jsx` snello, costanti c
 Il criterio del task 9 non è ancora soddisfatto.
 
 **Da fare:**
+
 - Cancella la cartella locale `task-board-react/`. Non è più in git (è ignorata), ma il suo `dist/` produce più di 100 errori di lint.
 - Correggi `react-hooks/set-state-in-effect` in `FetchStatusToast.jsx`: oggi `setVisible(true)` viene chiamato in modo sincrono nell'effetto. Suggerimento: invece di "accendere" il toast nell'effetto, parti visibile e usa uno stato tipo `isClosing` che cambi solo dentro i `setTimeout`. Per l'animazione di ingresso guarda la variante `starting:` di Tailwind v4.
 - Già che ci sei, in `FetchStatusToast`:
@@ -151,6 +162,7 @@ Il criterio del task 9 non è ancora soddisfatto.
 ## 13. Finire il task 3 e le label
 
 **Da fare:**
+
 - In `Card.jsx` ci sono ancora `task-card` e `data-id`: vanno tolti.
 - In `FormSelect.jsx` le `<label>` non sono collegate alle `<select>`: cliccando l'etichetta non succede niente e lo screen reader non le associa. Collegale (`htmlFor` + `id`, oppure metti la `<select>` dentro la `<label>`).
 
@@ -170,6 +182,7 @@ Il criterio del task 9 non è ancora soddisfatto.
 ## Bonus track: un componente `Button` con varianti
 
 **Problema:** i bottoni dell'app sono `<button>` HTML con le classi Tailwind copiate ogni volta, e copiandole si sono allontanate tra loro:
+
 - `rounded-2xl` in un punto, `rounded-xl` in un altro;
 - padding `px-4 py-2` oppure `px-5 py-1`;
 - testo bianco su "Scarica task!", grigio su "Salva", nessun colore sugli altri;
@@ -179,6 +192,7 @@ Il criterio del task 9 non è ancora soddisfatto.
 Per cambiare l'aspetto di tutti i bottoni "principali" oggi devi modificare 5 file.
 
 **Da fare:**
+
 - Crea `src/components/Button.jsx` con una prop `variant` che accetta due valori:
   - `default`: azzurro (`sky`), per le azioni normali;
   - `danger`: rosso, per le azioni distruttive o di uscita.
@@ -189,14 +203,17 @@ Per cambiare l'aspetto di tutti i bottoni "principali" oggi devi modificare 5 fi
 - Il **posizionamento** (`ml-2`, `ml-5`, `absolute top-6 right-6`, …) non è stile del bottone ma dipende da dove il bottone viene messo. Lascialo decidere al genitore con una prop `className` che si aggiunge alle classi base.
 
 **Bottoni da convertire:**
+
 - `default`: "Nuova attività" (`Header`), "Filtri" e "Pulisci filtri" (`FilterBar`), "Salva" (`Form`), "Annulla" della modale di conferma (`DetailModal`). Per "Annulla" decidi tu se va bene `default` o se serve una terza variante, ma motiva la scelta.
 - `danger`: "Scarica task!" (`FilterBar`), la X della modale (`Form`), "Esci" (`DetailModal`).
 - Restano fuori, perché non sono "bottoni" nello stesso senso visivo: la X del toast, il `+` della checklist e "Elimina attività". Se vuoi, quest'ultimo può diventare una terza variante `ghost`: quanto codice devi aggiungere per farlo?
 
 **Domande su cui ragionare:**
+
 - Perché il posizionamento sta nel genitore e i colori nel componente?
 - Cosa succede se qualcuno scrive `variant="primary"`, che non esiste? Come lo gestiresti?
 
 **Fatto quando:**
+
 - nell'app non resta nessun `<button>` con classi di colore scritte a mano, a parte le eccezioni elencate sopra;
 - cambiare il colore di tutti i bottoni `default` richiede di modificare **una sola riga**.

@@ -1,4 +1,4 @@
-export function IconCloseForm({ classname }) {
+export function IconCloseForm({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,14 +6,14 @@ export function IconCloseForm({ classname }) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className={classname}
+      className={className}
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
     </svg>
   );
 }
 
-export function IconDescriptionAndColumn({ classname }) {
+export function IconDescriptionAndColumn({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +21,7 @@ export function IconDescriptionAndColumn({ classname }) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className={classname}
+      className={className}
     >
       <path
         strokeLinecap="round"
@@ -32,7 +32,7 @@ export function IconDescriptionAndColumn({ classname }) {
   );
 }
 
-export function IconManage({ classname }) {
+export function IconManage({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@ export function IconManage({ classname }) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className={classname}
+      className={className}
     >
       <path
         strokeLinecap="round"
@@ -51,7 +51,7 @@ export function IconManage({ classname }) {
   );
 }
 
-export function IconTime({ classname }) {
+export function IconTime({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@ export function IconTime({ classname }) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className={classname}
+      className={className}
     >
       <path
         strokeLinecap="round"
@@ -70,9 +70,9 @@ export function IconTime({ classname }) {
   );
 }
 
-export function IconDelete({ classname }) {
+export function IconDelete({ className }) {
   return (
-    <svg className={classname} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -83,7 +83,7 @@ export function IconDelete({ classname }) {
   );
 }
 
-export function IconCheck({ classname }) {
+export function IconCheck({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -91,14 +91,14 @@ export function IconCheck({ classname }) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className={classname}
+      className={className}
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
     </svg>
   );
 }
 
-export function IconPlus({ classname }) {
+export function IconPlus({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -106,14 +106,14 @@ export function IconPlus({ classname }) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className={classname}
+      className={className}
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
     </svg>
   );
 }
 
-export function IconSearch({ classname }) {
+export function IconSearch({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +121,7 @@ export function IconSearch({ classname }) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className={classname}
+      className={className}
     >
       <path
         strokeLinecap="round"
@@ -132,7 +132,7 @@ export function IconSearch({ classname }) {
   );
 }
 
-export function IconFilters({ classname }) {
+export function IconFilters({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +140,7 @@ export function IconFilters({ classname }) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className={classname}
+      className={className}
     >
       <path
         strokeLinecap="round"
@@ -151,9 +151,9 @@ export function IconFilters({ classname }) {
   );
 }
 
-export function IconLoading({ classname }) {
+export function IconLoading({ className }) {
   return (
-    <svg className={classname} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle
         className="opacity-25"
         cx="12"
@@ -171,7 +171,7 @@ export function IconLoading({ classname }) {
   );
 }
 
-export function IconCategory({ classname }) {
+export function IconCategory({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +179,7 @@ export function IconCategory({ classname }) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className={classname}
+      className={className}
     >
       <path
         strokeLinecap="round"
@@ -191,7 +191,7 @@ export function IconCategory({ classname }) {
   );
 }
 
-export function IconUser({ classname }) {
+export function IconUser({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -199,12 +199,50 @@ export function IconUser({ classname }) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className={classname}
+      className={className}
     >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+      />
+    </svg>
+  );
+}
+
+export function IconClock({ className }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className={className}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+      />
+    </svg>
+  );
+}
+
+export function IconComplete({ className }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className={className}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
       />
     </svg>
   );

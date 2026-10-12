@@ -28,7 +28,7 @@ export default function FilterBar({ onClick, fetchStatus }) {
     <>
       <div className="max-w-7xl mx-auto flex items-center">
         <div className="relative mr-2">
-          <IconSearch classname={'size-5 absolute text-gray-400 left-3 top-1/2 -translate-y-1/2'} />
+          <IconSearch className={'size-5 absolute text-gray-400 left-3 top-1/2 -translate-y-1/2'} />
           <input
             type="text"
             placeholder="Cerca attività..."
@@ -41,7 +41,7 @@ export default function FilterBar({ onClick, fetchStatus }) {
           className="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2"
           onClick={() => setFiltersOpen(!isFiltersOpen)}
         >
-          <IconFilters classname={'size-5'} />
+          <IconFilters className={'size-5'} />
           Filtri
         </button>
         <button
@@ -62,7 +62,7 @@ export default function FilterBar({ onClick, fetchStatus }) {
 
         {fetchStatus === 'loading' && (
           <div className="flex items-center ml-4 text-indigo-600">
-            <IconLoading classname={'animate-spin h-6 w-6 mr-2'} />
+            <IconLoading className={'animate-spin h-6 w-6 mr-2'} />
           </div>
         )}
       </div>
@@ -70,15 +70,15 @@ export default function FilterBar({ onClick, fetchStatus }) {
       {isFiltersOpen && (
         <div className="max-w-7xl mx-auto mt-5 items-center grid grid-cols-4 gap-4">
           <span className="mt-5 flex items-center gap-2 font-bold">
-            <IconCategory classname={'size-5'} />
+            <IconCategory className={'size-5'} />
             Categoria
           </span>
           <span className="mt-5 flex items-center gap-2 font-bold">
-            <IconTime classname={'size-6'} />
+            <IconTime className={'size-6'} />
             Scadenza
           </span>
           <span className="mt-5 flex items-center gap-2 font-bold">
-            <IconUser classname={'size-6'} />
+            <IconUser className={'size-6'} />
             Utente assegnato
           </span>
           <div className="col-span-4 border-y border-sky-600 py-4 grid grid-cols-4 gap-4">

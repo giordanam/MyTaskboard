@@ -16,11 +16,11 @@ A modern task management web application (To-Do List), originally developed in V
 2. Clone this repository to your local machine.
 3. Open the terminal in the project folder and install dependencies:
 
-   npm install
+   `npm install`
 
 4. Start the local development server:
 
-   npm run dev
+   `npm run dev`
 
 5. Open your browser at the address shown in the terminal (usually http://localhost:5173).
 
@@ -28,18 +28,21 @@ A modern task management web application (To-Do List), originally developed in V
 
 ```text
 /
-├── index.html        # Application HTML entry point
-├── package.json      # npm dependencies and scripts
-├── package-lock.json     # Lockfile for exact dependency versions
-├── vite.config.js        # Vite bundler and plugin configuration
-├── eslint.config.js      # ESLint rules and configuration for code quality
+├── index.html           # Application HTML entry point
+├── package.json         # npm dependencies and scripts
+├── package-lock.json    # Lockfile for exact dependency versions
+├── vite.config.js       # Vite bundler and plugin configuration
+├── eslint.config.js     # ESLint rules and configuration for code quality
 └── src/
-    ├── main.jsx      # React entry point (Mounting)
-    ├── index.css     # Global styles and Tailwind directives
-    ├── App.jsx       # Main component (State, Logic, Fetching)
-    ├── constant.jsx  # Global application constants (e.g., users, categories, status)
-    ├── FilterContext.js # Global state management for search and filters (Context API)
-    ├── FilterProvider.jsx # Context Provider wrapper to supply filter state to children
-    ├── utils/        # Utility files
-    └── components/   # Isolated and reusable UI components
+    ├── main.jsx         # React entry point (Mounting)
+    ├── index.css        # Global styles and Tailwind directives
+    ├── App.jsx          # Main component (State, Logic, Fetching)
+    ├── constants.jsx    # Global application constants (e.g., users, categories)
+    ├── FilterContext.js # Global state management for filters (Context API)
+    ├── FilterProvider.jsx # Context Provider wrapper to supply filter state
+    ├── utils/           # Utility functions (e.g., formatters)
+    └── components/      # Isolated and reusable UI components
+        ├── FilterBar.jsx          # Search and category filters UI
+        ├── FetchStatusToast.jsx   # Animated notification for fetch status
+        └── ...                    # Other UI components (Card, Form, etc.)
 ```

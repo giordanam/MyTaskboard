@@ -28,7 +28,7 @@ export default function Checklist({ checklist, setChecklist }) {
   return (
     <div>
       <h3 className="mb-2 mt-4 text-sm font-bold text-gray-700 flex items-center gap-2">
-        <IconCheck classname={'size-4'} />
+        <IconCheck className={'size-4'} />
         Checklist
       </h3>
       <div className="space-y-2 mb-3">

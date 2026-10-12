@@ -8,7 +8,7 @@ export default function Card({ task, onEditTask }) {
     <div onClick={() => onEditTask(task)} className="bg-white p-4 rounded-lg shadow cursor-pointer">
       <div className="mb-2">
         <span className="inline-block px-2 py-1 font-bold text-sky-700 bg-sky-100 rounded">
-          {category.label}
+          {category?.label || 'no label'}
         </span>
       </div>
       <h3 className="text-sm font-bold text-gray-800 mb-4">{task.title}</h3>
@@ -18,7 +18,7 @@ export default function Card({ task, onEditTask }) {
           <span>{task.expire.split('-').reverse().join('/')}</span>
         </div>
         <div className="w-9 h-9 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center">
-          {user.initials}
+          {user?.initials || '?'}
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { CATEGORIES, USERS, STATUS } from '../constants.jsx';
-import { getLocalDateString } from './helper.js';
+import { getLocalDateString } from './dateUtils.js';
 
 export function formatFetchedTasks(apiData) {
   const possibleCategories = CATEGORIES.map((category) => category.value);
