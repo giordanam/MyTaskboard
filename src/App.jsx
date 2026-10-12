@@ -133,7 +133,7 @@ function App() {
         <FilterBar onClick={handleDownloadClick} fetchStatus={fetchStatus} />
         <FetchStatusToast
           fetchStatus={fetchStatus}
-          setFetchStatus={setFetchStatus}
+          onDismiss={() => setFetchStatus('idle')}
           errorMessage={errorMessage}
         />
         <List tasks={tasks} hasTasks={tasks.length > 0} onEditTask={handleEditTask} />

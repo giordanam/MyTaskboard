@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 
-export default function FetchStatusToast({ fetchStatus, setFetchStatus, errorMessage }) {
+export default function FetchStatusToast({ fetchStatus, onDismiss, errorMessage }) {
   // Stato interno per gestire l'opacità e l'animazione di uscita
-  const [visible, setVisible] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   //timer
   useEffect(() => {
-    if (fetchStatus === 'error' || fetchStatus === 'empty' || fetchStatus === 'success') {
-      setVisible(true);
+    if (fetchStatus === 'error' || fetchStatus === 'success') {
       const fadeTimer = setTimeout(() => {
-        setVisible(false);
+        setIsClosing(true);
       }, 3500);
 
-      // Diamo il tempo all'animazione di finire (500ms) prima di resettare lo stato a 'idle'
       const destroyTimer = setTimeout(() => {
-        setFetchStatus('idle');
+        onDismiss();
+        setIsClosing(false);
       }, 4000);
 
       // Pulizia dei timer
@@ -22,13 +21,14 @@ export default function FetchStatusToast({ fetchStatus, setFetchStatus, errorMes
         clearTimeout(destroyTimer);
       };
     }
-  }, [fetchStatus, setFetchStatus]);
+  }, [fetchStatus, onDismiss]);
 
   const handleManualClose = () => {
-    setVisible(false);
+    setIsClosing(true);
     setTimeout(() => {
-      setFetchStatus('idle');
-    }, 4000); // aspettiamo che la dissolvenza si completi prima di smontare il componente
+      onDismiss();
+      setIsClosing(false);
+    }, 500); // aspettiamo che la dissolvenza si completi prima di smontare il componente
   };
 
   if (fetchStatus === 'idle' || fetchStatus === 'loading') {
@@ -37,13 +37,12 @@ export default function FetchStatusToast({ fetchStatus, setFetchStatus, errorMes
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-50 shadow-2xl rounded-lg overflow-hidden transition-all duration-500 ease-in-out ${
-        visible
-          ? 'opacity-100 translate-y-0 scale-100'
-          : 'opacity-0 translate-y-4 scale-95 pointer-events-none'
+      className={`fixed bottom-6 right-6 z-50 shadow-2xl rounded-lg overflow-hidden transition-all duration-500 ease-in-out starting:opacity-0 starting:translate-y-4 starting:scale-95 ${
+        isClosing
+          ? 'opacity-0 translate-y-4 scale-95 pointer-events-none'
+          : 'opacity-100 translate-y-0 scale-100'
       }`}
     >
-      {' '}
       {/* BOTTONE DI CHIUSURA*/}
       <button
         onClick={handleManualClose}
@@ -59,16 +58,6 @@ export default function FetchStatusToast({ fetchStatus, setFetchStatus, errorMes
           <div>
             <h3 className="font-bold text-lg">Impossibile scaricare</h3>
             <p>{errorMessage}</p>
-          </div>
-        </div>
-      )}
-      {/*STATO: VUOTO */}
-      {fetchStatus === 'empty' && (
-        <div className="flex items-center p-6 bg-yellow-100 border-l-8 border-yellow-500 text-yellow-800 min-w-[300px]">
-          <span className="text-2xl mr-4">⚠️</span>
-          <div>
-            <h3 className="font-bold text-lg">Lista vuota</h3>
-            <p>Il server non ha restituito nessuna task.</p>
           </div>
         </div>
       )}
