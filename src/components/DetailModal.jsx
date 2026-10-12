@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Form from './Form.jsx';
+import Button from './Button.jsx';
 
 export default function DetailModal({ onClose, task, onSave, onDelete }) {
   const [showWarning, setShowWarning] = useState(false);
@@ -27,21 +28,18 @@ export default function DetailModal({ onClose, task, onSave, onDelete }) {
                   Le modifiche che hai fatto non verranno salvate
                 </p>
                 <div className="flex justify-center gap-3 w-full">
-                  <button
-                    onClick={() => setShowWarning(false)}
-                    className="bg-white hover:bg-gray-100 rounded-xl font-medium border border-gray-700 px-5 py-1 text-gray-700"
-                  >
+                  <Button variant="secondary" onClick={() => setShowWarning(false)}>
                     Annulla
-                  </button>
-                  <button
+                  </Button>
+                  <Button
+                    variant="danger"
                     onClick={() => {
                       setShowWarning(false);
                       onClose();
                     }}
-                    className="bg-red-500 hover:bg-red-600 rounded-xl px-4 py-1 text-white"
                   >
                     Esci
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>

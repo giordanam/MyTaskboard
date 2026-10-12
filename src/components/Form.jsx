@@ -9,6 +9,7 @@ import {
   IconManage,
   IconTime,
 } from './Icons.jsx';
+import Button from './Button.jsx';
 
 export default function Form({ onClose, task, onSave, onDelete }) {
   const isNewTask = task === null;
@@ -38,13 +39,13 @@ export default function Form({ onClose, task, onSave, onDelete }) {
   return (
     <form onSubmit={handleSubmit} onChange={() => setIsDirty(true)}>
       <div className="flex flex-col max-h-[90vh]">
-        <button
-          type="button"
-          className="cursor-pointer bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 absolute top-6 right-6 gap-1 z-10"
+        <Button
+          variant="danger"
           onClick={() => onClose(isDirty)}
+          className="absolute top-6 right-6 z-10 gap-1"
         >
-          <IconCloseForm className={'size-6'} />
-        </button>
+          <IconCloseForm className="size-6" />
+        </Button>
         <div className="p-8 flex-1 overflow-y-auto">
           <div className="mb-8 pr-24">
             <input
@@ -128,23 +129,14 @@ export default function Form({ onClose, task, onSave, onDelete }) {
         <div className="px-8 py-5 border-t w-full border-gray-100 flex justify-between items-center bg-gray-50">
           {!isNewTask && (
             <div className="flex flex-col items-start gap-1">
-              <button
-                type="button"
-                onClick={() => onDelete(task.id)}
-                className="text-sm mt-2 font-medium text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-md flex items-center gap-1.5"
-              >
-                <IconDelete className={'size-4'} />
+              <Button variant="ghost" onClick={() => onDelete(task.id)} className="mt-2 gap-1.5">
+                <IconDelete className="size-4" />
                 Elimina Attività
-              </button>
+              </Button>
             </div>
           )}
           <div className="flex gap-2">
-            <button
-              type="submit"
-              className="bg-sky-500 hover:bg-sky-600 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-xl px-5 py-1 text-gray-700"
-            >
-              Salva
-            </button>
+            <Button type="submit">Salva</Button>
           </div>
         </div>
       </div>

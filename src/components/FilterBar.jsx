@@ -9,6 +9,7 @@ import {
   IconTime,
   IconUser,
 } from './Icons.jsx';
+import Button from './Button.jsx';
 
 export default function FilterBar({ onClick, fetchStatus }) {
   const [isFiltersOpen, setFiltersOpen] = useState(false);
@@ -37,29 +38,21 @@ export default function FilterBar({ onClick, fetchStatus }) {
             className="bg-white pr-4 py-2 pl-10 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 rounded-2xl"
           />
         </div>
-        <button
-          className="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 flex items-center gap-2"
-          onClick={() => setFiltersOpen(!isFiltersOpen)}
-        >
+        <Button className="gap-2" onClick={() => setFiltersOpen(!isFiltersOpen)}>
           <IconFilters className={'size-5'} />
           Filtri
-        </button>
-        <button
-          type="button"
-          onClick={handleClearFilters}
-          className="bg-sky-500 hover:bg-sky-600 rounded-2xl px-4 py-2 justify-self-end ml-2"
-        >
+        </Button>
+        <Button className="justify-self-end ml-2" onClick={handleClearFilters}>
           Pulisci filtri
-        </button>
-
-        <button
+        </Button>
+        <Button
+          variant="danger"
           onClick={onClick}
           disabled={fetchStatus === 'loading'}
-          className="ml-5 disabled:opacity-50 disabled:cursor-not-allowed text-white bg-red-600 hover:bg-red-500 rounded-2xl px-4 py-2 flex items-center gap-2"
+          className="ml-5"
         >
-          Scarica task!
-        </button>
-
+          Scarica tasks
+        </Button>
         {fetchStatus === 'loading' && (
           <div className="flex items-center ml-4 text-indigo-600">
             <IconLoading className={'animate-spin h-6 w-6 mr-2'} />
