@@ -164,3 +164,39 @@ Il criterio del task 9 non è ancora soddisfatto.
 - **Nomi:** `utils/helper.js` dice poco: un nome come `dateUtils.js` racconta cosa contiene.
 
 **Fatto quando:** `npm run lint` e `npx prettier --check .` sono puliti, "Scarica task!" mostra spinner, bottone disabilitato e poi il toast, e con DevTools offline compare il toast di errore.
+
+---
+
+## Bonus track: un componente `Button` con varianti
+
+**Problema:** i bottoni dell'app sono `<button>` HTML con le classi Tailwind copiate ogni volta, e copiandole si sono allontanate tra loro:
+- `rounded-2xl` in un punto, `rounded-xl` in un altro;
+- padding `px-4 py-2` oppure `px-5 py-1`;
+- testo bianco su "Scarica task!", grigio su "Salva", nessun colore sugli altri;
+- `cursor-pointer` solo su alcuni;
+- stile `disabled:` solo su uno.
+
+Per cambiare l'aspetto di tutti i bottoni "principali" oggi devi modificare 5 file.
+
+**Da fare:**
+- Crea `src/components/Button.jsx` con una prop `variant` che accetta due valori:
+  - `default`: azzurro (`sky`), per le azioni normali;
+  - `danger`: rosso, per le azioni distruttive o di uscita.
+- Lo stile **comune** (forma, padding, font, cursore, `disabled:`, focus) si scrive una volta sola. Ogni variante aggiunge solo i propri colori. Suggerimento: un oggetto `{ default: '...', danger: '...' }` da cui leggere le classi con `variants[variant]`.
+- `variant` ha un valore di default (`'default'`), così nel caso più comune non serve scriverlo.
+- Il componente deve comportarsi come un `<button>` vero: usa `children` per il contenuto, cioè testo e icone, e inoltra `onClick`, `disabled`, `aria-label` e gli altri attributi con il rest/spread (`...props`).
+- **Attenzione a `type`:** dentro un `<form>` un `<button>` senza `type` è un `submit`. Fai in modo che `Button` sia `type="button"` per default e che "Salva" lo sovrascriva con `type="submit"`.
+- Il **posizionamento** (`ml-2`, `ml-5`, `absolute top-6 right-6`, …) non è stile del bottone ma dipende da dove il bottone viene messo. Lascialo decidere al genitore con una prop `className` che si aggiunge alle classi base.
+
+**Bottoni da convertire:**
+- `default`: "Nuova attività" (`Header`), "Filtri" e "Pulisci filtri" (`FilterBar`), "Salva" (`Form`), "Annulla" della modale di conferma (`DetailModal`). Per "Annulla" decidi tu se va bene `default` o se serve una terza variante, ma motiva la scelta.
+- `danger`: "Scarica task!" (`FilterBar`), la X della modale (`Form`), "Esci" (`DetailModal`).
+- Restano fuori, perché non sono "bottoni" nello stesso senso visivo: la X del toast, il `+` della checklist e "Elimina attività". Se vuoi, quest'ultimo può diventare una terza variante `ghost`: quanto codice devi aggiungere per farlo?
+
+**Domande su cui ragionare:**
+- Perché il posizionamento sta nel genitore e i colori nel componente?
+- Cosa succede se qualcuno scrive `variant="primary"`, che non esiste? Come lo gestiresti?
+
+**Fatto quando:**
+- nell'app non resta nessun `<button>` con classi di colore scritte a mano, a parte le eccezioni elencate sopra;
+- cambiare il colore di tutti i bottoni `default` richiede di modificare **una sola riga**.
