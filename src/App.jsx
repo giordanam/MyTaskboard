@@ -26,7 +26,7 @@ function App() {
   const fetchTasksData = async (signal) => {
     try {
       //await new Promise((resolve) => setTimeout(resolve, 3000));
-      const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=2', {
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=4', {
         //aggancio del segnale alla fetch
         signal,
       });
@@ -43,7 +43,6 @@ function App() {
     } catch (error) {
       if (error.name === 'AbortError') {
         console.log('Fetch annullata da React strict mode');
-        setFetchStatus('idle');
         return;
       }
 
