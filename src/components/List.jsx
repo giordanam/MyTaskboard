@@ -12,9 +12,9 @@ export default function List({ tasks, hasTasks, onEditTask }) {
     return (
       <div className="mt-5 flex flex-col items-center justify-center gap-3 text-center bg-white border border-dashed border-gray-300 rounded-lg py-16 px-6">
         {hasTasks ? (
-          <IconSearch classname={'size-10 text-sky-500'} />
+          <IconSearch className={'size-10 text-sky-500'} />
         ) : (
-          <IconPlus classname={'size-10 text-sky-500'} />
+          <IconPlus className={'size-10 text-sky-500'} />
         )}
         <p className="font-bold text-gray-700">
           {hasTasks
