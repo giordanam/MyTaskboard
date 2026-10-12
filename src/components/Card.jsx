@@ -5,11 +5,7 @@ export default function Card({ task, onEditTask }) {
   const category = CATEGORIES.find((category) => task.category === category.value);
   const user = USERS.find((user) => task.user === user.value);
   return (
-    <div
-      onClick={() => onEditTask(task)}
-      className="bg-white p-4 rounded-lg shadow task-card cursor-pointer"
-      data-id={task.id}
-    >
+    <div onClick={() => onEditTask(task)} className="bg-white p-4 rounded-lg shadow cursor-pointer">
       <div className="mb-2">
         <span className="inline-block px-2 py-1 font-bold text-sky-700 bg-sky-100 rounded">
           {category.label}
