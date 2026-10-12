@@ -108,3 +108,59 @@ Regola generale prima di ogni consegna: rileggi il diff e chiediti, per ogni fil
 
 - La X della modale chiede conferma anche se non hai modificato niente. Mostra l'avviso solo se il form è stato toccato.
 - Chiudi la modale anche con `Esc`.
+
+---
+
+# Secondo giro
+
+Ottimo lavoro: Context separato con `useFilters()`, `App.jsx` snello, costanti centralizzate, `List` generata con un `map`, bonus completati. Restano alcune cose per chiudere davvero il refactor. Stesse regole di prima: in ordine, un commit per punto.
+
+## 10. Il click su "Scarica task!" non entra mai in `loading`
+
+**Problema:** dopo il task 4 nessuno imposta più `setFetchStatus('loading')` quando si clicca il bottone. Lo stato `loading` arriva solo dall'inizializzatore lazy al primo render. Prova: clicca "Scarica task!" e osserva che lo spinner non compare e che il bottone non si disabilita (lo stile `disabled:` del task 8 non si vede mai). Puoi anche cliccare due volte di fila.
+
+**Da fare:**
+- Crea un handler per il click che porti lo stato in `loading` e poi lanci la fetch.
+- Semplifica la firma di `fetchTasksData`: il `signal` è un parametro **opzionale**. Oggi `new AbortController().signal` crea un controller che nessuno potrà mai annullare, la variabile `controller` contiene in realtà un signal e il controllo `instanceof` non serve.
+
+**Domanda su cui ragionare:** perché `setFetchStatus('loading')` va bene dentro un handler mentre il plugin lo segnala dentro un effetto?
+
+## 11. Fetch annullata in StrictMode
+
+**Problema:** in sviluppo, con la board vuota, la prima fetch viene annullata e la catch fa `setFetchStatus('idle')`. Però nel frattempo la seconda fetch, quella "vera", è già partita: lo spinner sparisce mentre il caricamento è ancora in corso.
+
+**Da fare:**
+- Ricostruisci passo per passo cosa succede con StrictMode: mount, cleanup, mount, e quando arriva ciascuna risposta o eccezione.
+- Su `AbortError` non toccare lo stato.
+
+## 12. `npm run lint` deve tornare verde
+
+Il criterio del task 9 non è ancora soddisfatto.
+
+**Da fare:**
+- Cancella la cartella locale `task-board-react/`. Non è più in git (è ignorata), ma il suo `dist/` produce più di 100 errori di lint.
+- Correggi `react-hooks/set-state-in-effect` in `FetchStatusToast.jsx`: oggi `setVisible(true)` viene chiamato in modo sincrono nell'effetto. Suggerimento: invece di "accendere" il toast nell'effetto, parti visibile e usa uno stato tipo `isClosing` che cambi solo dentro i `setTimeout`. Per l'animazione di ingresso guarda la variante `starting:` di Tailwind v4.
+- Già che ci sei, in `FetchStatusToast`:
+  - Passa una callback `onDismiss` invece di `setFetchStatus`: il figlio non dovrebbe conoscere lo stato del padre.
+  - Lo stato `'empty'` non viene mai impostato da nessuna parte. O lo gestisci nella fetch, o lo togli.
+  - `handleManualClose` aspetta 4000 ms, ma il commento parla di attendere la dissolvenza (500 ms).
+  - Togli il `{' '}` residuo.
+
+**Fatto quando:** `npm run lint` dà 0 errori e 0 warning, senza aggiungere nuovi `eslint-disable`.
+
+## 13. Finire il task 3 e le label
+
+**Da fare:**
+- In `Card.jsx` ci sono ancora `task-card` e `data-id`: vanno tolti.
+- In `FormSelect.jsx` le `<label>` non sono collegate alle `<select>`: cliccando l'etichetta non succede niente e lo screen reader non le associa. Collegale (`htmlFor` + `id`, oppure metti la `<select>` dentro la `<label>`).
+
+## 14. Rifiniture
+
+- **README:** correggi la struttura (`constants.jsx` e non `constant.jsx`, `FilterContext.js` e non `.jsx`, aggiungi `FilterBar`, i toast, `utils/`), e metti i comandi `npm` in un blocco di codice.
+- **`package.json`:** il `name` è ancora `task-board-react`.
+- **Prettier su Windows:** con `core.autocrlf=true`, `npx prettier --check .` segnala tutti i file per i fine riga. Aggiungi `"endOfLine": "auto"` (o un `.gitattributes`). Fai coprire allo script `format` anche i file di config in root (`vite.config.js` ed `eslint.config.js` non sono formattati).
+- **Icone:** la prop si chiama `classname`, ma in React la convenzione è `className`. Le icone dentro `STATUS` duplicano gli SVG di `Icons.jsx`: riusa quelli.
+- **Robustezza di `Card`:** se in `localStorage` c'è un task con un utente o una categoria che non esiste più in `constants`, `user.initials` manda in crash l'app. Gestisci il caso.
+- **Nomi:** `utils/helper.js` dice poco: un nome come `dateUtils.js` racconta cosa contiene.
+
+**Fatto quando:** `npm run lint` e `npx prettier --check .` sono puliti, "Scarica task!" mostra spinner, bottone disabilitato e poi il toast, e con DevTools offline compare il toast di errore.
