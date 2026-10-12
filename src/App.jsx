@@ -25,10 +25,10 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const fetchTasksData = async (signal) => {
     try {
-      const controller = signal instanceof AbortSignal ? signal : undefined;
+      //await new Promise((resolve) => setTimeout(resolve, 3000));
       const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=2', {
         //aggancio del segnale alla fetch
-        signal: controller,
+        signal,
       });
 
       if (!response.ok) {
@@ -73,6 +73,11 @@ function App() {
     // iniziale di `tasks`, non rieseguire il fetch ogni volta che cambia.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleDownloadClick = async () => {
+    setFetchStatus('loading');
+    await fetchTasksData();
+  };
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -126,10 +131,7 @@ function App() {
             setSelectedTask(null);
           }}
         />
-        <FilterBar
-          onFetch={() => fetchTasksData(new AbortController().signal)}
-          fetchStatus={fetchStatus}
-        />
+        <FilterBar onClick={handleDownloadClick} fetchStatus={fetchStatus} />
         <FetchStatusToast
           fetchStatus={fetchStatus}
           setFetchStatus={setFetchStatus}

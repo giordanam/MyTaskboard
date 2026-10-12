@@ -10,7 +10,7 @@ import {
   IconUser,
 } from './Icons.jsx';
 
-export default function FilterBar({ onFetch, fetchStatus }) {
+export default function FilterBar({ onClick, fetchStatus }) {
   const [isFiltersOpen, setFiltersOpen] = useState(false);
   const {
     searchQuery,
@@ -53,9 +53,9 @@ export default function FilterBar({ onFetch, fetchStatus }) {
         </button>
 
         <button
-          onClick={onFetch}
+          onClick={onClick}
           disabled={fetchStatus === 'loading'}
-          className="ml-5 disabled:opacity-50 disabled:cursor-not-allowed text-white bg-red-500 hover:bg-red-600 rounded-2xl px-4 py-2 flex items-center gap-2"
+          className="ml-5 disabled:opacity-50 disabled:cursor-not-allowed text-white bg-red-600 hover:bg-red-500 rounded-2xl px-4 py-2 flex items-center gap-2"
         >
           Scarica task!
         </button>
