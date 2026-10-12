@@ -38,7 +38,7 @@ A modern task management web application (To-Do List), originally developed in V
     ├── index.css     # Global styles and Tailwind directives
     ├── App.jsx       # Main component (State, Logic, Fetching)
     ├── constant.jsx  # Global application constants (e.g., users, categories, status)
-    ├── FilterContext.jsx # Global state management for search and filters (Context API)
+    ├── FilterContext.js # Global state management for search and filters (Context API)
     ├── FilterProvider.jsx # Context Provider wrapper to supply filter state to children
     ├── utils/        # Utility files
     └── components/   # Isolated and reusable UI components
